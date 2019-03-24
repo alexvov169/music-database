@@ -17,6 +17,7 @@ api_account_details = {
  'username': 'monty-1'
 }
 
+
 def options_to_query_string(**options):
     return ''.join(['&%s=%s' % (k, v) for k, v in options.items()])
 
@@ -103,7 +104,6 @@ def main():
         print(table_wrapper.table)
 
 # main()
-
 
 
 """
