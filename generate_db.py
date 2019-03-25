@@ -29,18 +29,42 @@ def last_get(method, api_key, options, format='json'):
     return requests.get(req)
 
 
-def get_top_tracks(artist_name):
-    response = last_get(method="artist.getTopTracks", api_key=api_account_details['api_key'],
-                        options={'artist': artist_name, 'limit': '50'})
-    return list(map(lambda track: {"name": track['name'],
-                                   "listeners": track['listeners'],
-                                   "playcount": track['playcount']},
-                    response.json()['toptracks']['track']))
+def get_album(album, artist_name):
+    album_name = album['name']
+    response = last_get(method="album.getinfo", api_key=api_account_details['api_key'],
+                        options={'artist': artist_name, 'album': album_name})
+    try:
+        album_info = response.json()['album']
+    except KeyError:
+        return None
+    else:
+        tracks = list(map(lambda track: {"name": track['name'],
+                                         "duration": track['duration'],
+                                         "rank": track['@attr']['rank']},
+                          album_info['tracks']['track']))
+        try:
+            published_info = album_info['wiki']['published']
+        except KeyError:
+            return None
+        else:
+            return {"name": album_name,
+                    "listeners": album_info['listeners'],
+                    "playcount": album['playcount'],
+                    "published": published_info,
+                    "tracks": tracks}
+
+
+def get_top_albums(artist_name):
+    response = last_get(method="artist.getTopAlbums", api_key=api_account_details['api_key'],
+                        options={'artist': artist_name, 'limit': '5'})
+    return list(filter(lambda x: x is not None,
+                       map(lambda album: get_album(album, artist_name),
+                           response.json()['topalbums']['album'])))
 
 
 def make_artist_with_tracks(artist):
     return {"artist": artist,
-            "tracks": get_top_tracks(artist['name'])}
+            "albums": get_top_albums(artist['name'])}
 
 
 def dump_artists_json(file, country="Ukraine", artists_limit=10):
@@ -55,31 +79,34 @@ def dump_artists_json(file, country="Ukraine", artists_limit=10):
     artists_json = list(map(make_artist_with_tracks, pyprind.prog_bar(artists_json)))
 
     with open(file, 'w') as f:
-        json.dump({"topartists": artists_json}, f)
+        json.dump({"topartists": artists_json}, f, indent=True)
 
 
 def dict_to_csv(j):
+    # print(j)
     return ';'.join([dict_to_csv(v) if isinstance(v, dict)
                      else ';'.join([dict_to_csv(i) for i in v]) if isinstance(v, list)
-                     else v
+                     else str(v)
                      for k, v in j.items()])
 
 
 def rows_to_csv(rows, file):
-    with open(file, 'w') as out:
+    with open(file, 'w', encoding='utf-8') as out:
         csv_data = '\n'.join([dict_to_csv(row) for row in rows])
-        print(csv_data, file=out)
+        out.write(csv_data)
+        #print(csv_data.encode('utf-8'), file=out)
 
 
 def json_to_rows(file):
     with open(file) as inp:
-        return json.load(inp)
+        return json.load(inp)['topartists']
 
 
 csv_file = 'artists.csv'
 json_file = 'artist.json'
-# dump_artists_json(json_file, artists_limit=10)
-# rows_to_csv(json_to_rows(json_file), csv_file)
+#dump_artists_json(json_file, artists_limit=30, country="United States")
+dump_artists_json(json_file, artists_limit=30)
+rows_to_csv(json_to_rows(json_file), csv_file)
 
 
 connection_parameters = {
@@ -88,6 +115,7 @@ connection_parameters = {
 
 
 def main():
+    """
     with MusicLibraryDatabase([], **connection_parameters) as db:
         print(db.select_all('Artist'))
         with open(csv_file) as f:
@@ -102,6 +130,7 @@ def main():
         data = db.fulltext_search_all_match(entity='Artist', attribute='Artist_Name', key='Nirvana')
         table_wrapper = terminaltables.SingleTable([('Artist', 'Id')] + data)
         print(table_wrapper.table)
+    """
 
 # main()
 

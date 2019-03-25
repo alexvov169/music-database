@@ -31,37 +31,6 @@ DATABASE_DATA = {'entities': [{'name': 'Artist',
                                               {'name': 'Artist_Id',
                                                'type': 'INT'}]}]}
 
-"""
-class Entity:
-    Artist = 'Artist'
-    Album = 'Album'
-    Playlist = 'Playlist'
-    Track = 'Track'
-
-
-class Artist:
-    Name = 'Artist_Name'
-    Id = 'Artist_Id'
-
-
-class Album:
-    Name = 'Album_Name'
-    Id = 'Album_Id'
-    Year = 'Year'
-
-
-class Playlist:
-    Filepath = 'Filepath'
-    Description = 'Description'
-    Name = 'Playlist_Name'
-
-
-class Track:
-    Name = 'Track_Name'
-    Id = 'Track_Id'
-    Number = 'Number'
-"""
-
 
 class MusicLibraryDatabase:
     _SQL_CREATE_SCRIPT = """
@@ -75,6 +44,7 @@ class MusicLibraryDatabase:
     CREATE TABLE Album
     (
       Album_Name VARCHAR(256) NOT NULL,
+      Album_Genre VARCHAR(256) NOT NULL,
       Album_Id INT NOT NULL,
       Year INT NOT NULL,
       PRIMARY KEY (Album_Id)
@@ -94,22 +64,6 @@ class MusicLibraryDatabase:
       Album_Id INT NOT NULL,
       PRIMARY KEY (Artist_Id, Album_Id),
       FOREIGN KEY (Artist_Id) REFERENCES Artist(Artist_Id),
-      FOREIGN KEY (Album_Id) REFERENCES Album(Album_Id)
-    );
-
-    CREATE TABLE Artist_Specialization
-    (
-      Specialization VARCHAR(256) NOT NULL,
-      Artist_Id INT NOT NULL,
-      PRIMARY KEY (Specialization, Artist_Id),
-      FOREIGN KEY (Artist_Id) REFERENCES Artist(Artist_Id)
-    );
-
-    CREATE TABLE Album_Genre
-    (
-      Genre VARCHAR(256) NOT NULL,
-      Album_Id INT NOT NULL,
-      PRIMARY KEY (Genre, Album_Id),
       FOREIGN KEY (Album_Id) REFERENCES Album(Album_Id)
     );
 
@@ -203,6 +157,13 @@ class MusicLibraryDatabase:
 
     def select(self, entity, attribute, *values):
         self.cursor.execute(("SELECT * FROM %s WHERE %s IN %%s;" % (entity, attribute)), *values)
+
+    def get_key(self, entity):
+        return
+
+    def select_inner_join(self, entity1, entity2):
+        self.cursor.execute("SELECT * FROM %s INNER JOIN %s ON %s.%s = %s.%s"
+                            % (entity1, entity2, self.get_key(entity1), self.get_key(entity2)))
 
     def fulltext_search_all_match(self, entity, attribute, key):
         query = """select * from %s WHERE to_tsvector(%s) @@ to_tsquery('%s');"""
