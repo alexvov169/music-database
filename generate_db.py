@@ -22,9 +22,9 @@ def options_to_query_string(**options):
     return ''.join(['&%s=%s' % (k, v) for k, v in options.items()])
 
 
-def last_get(method, api_key, options, format='json'):
+def last_get(method, api_key, options, file_format='json'):
     req = scrobbler_root+'?method='+method+'&api_key='+api_key +\
-          options_to_query_string(**options)+'&format='+format
+          options_to_query_string(**options)+'&format='+file_format
     # print(req)
     return requests.get(req)
 

@@ -2,7 +2,7 @@ from __future__ import print_function, unicode_literals
 from PyInquirer import style_from_dict, Token, prompt, Separator
 from music_library_db import *
 
-import csv, terminaltables
+import csv, terminaltables, functools
 
 
 def make_style(color):
@@ -20,20 +20,8 @@ def make_style(color):
 green_style = make_style('#008000')
 red_style = make_style('#cc5454')
 entities = DATABASE_DATA['entities']
-operations = ["INSERT", "UPDATE", "DELETE", "SELECT"]
+operations = ["INSERT", "UPDATE", "DELETE", "SELECT", "QUIT"]
 operation_choices = [{'name': operation} for operation in operations]
-entities_choices = [{'name': entity['name']} for entity in entities]
-qq = [
-    {'type': 'list',
-     'message': 'Select the operation to perform',
-     'name': 'operation',
-     'choices': operation_choices},
-    {'type': 'list',
-     'message': 'Select an entity',
-     'when': lambda answer: answer['operation'] in operations,
-     'name': 'entity',
-     'choices': entities_choices},
-]
 
 
 def make_question(type, message, name, choices):
@@ -41,6 +29,16 @@ def make_question(type, message, name, choices):
             'message': message,
             'name': name,
             'choices': choices}
+
+
+def prompt_list(name, what_message, choices_names):
+    answer = prompt([make_question('list', 'Select '+what_message, name,
+                                   [{'name': choice_name} for choice_name in choices_names])])
+    return answer[name]
+
+
+def prompt_entities():
+    return prompt_list('entity', 'an entity', [entity['name'] for entity in entities])
 
 
 def get_entity_by_name(entity_name):
@@ -51,21 +49,33 @@ def get_entity_attributes(entity_name):
     return get_entity_by_name(entity_name)['attributes']
 
 
+def get_names(attributes_data):
+    return [attribute['name'] for attribute in attributes_data]
+
+
 def get_entity_attributes_names(entity_name):
-    return [attribute['name'] for attribute in get_entity_attributes(entity_name)]
+    return get_names(get_entity_attributes(entity_name))
+
+
+def get_entity_text_attributes(entity_name):
+    return list(filter(lambda attr_data: attr_data['type'] == 'VARCHAR',
+                       get_entity_attributes(entity_name)))
+
+
+def get_entity_text_attributes_names(entity_name):
+    return get_names(get_entity_text_attributes(entity_name))
 
 
 def prompt_attributes(entity_name):
-    attribute_choices = [{'name': attribute} for attribute in get_entity_attributes_names(entity_name)]
-    questions = [make_question('list', 'Select an attribute', 'attribute', attribute_choices)]
-    return prompt(questions, style=red_style)
+    return prompt_list('attribute', 'an attribute', get_entity_attributes_names(entity_name))
+
+
+def prompt_text_attributes(entity_name):
+    return prompt_list('attribute', 'among text attributes', get_entity_text_attributes_names(entity_name))
 
 
 csv_file = 'artists.csv'
 json_file = 'artist.json'
-connection_parameters = {
-    'user': 'postgres', 'host': 'localhost', 'password': 'py', 'database': 'db1'
-}
 
 
 def capitalize_all_words(val):
@@ -93,7 +103,8 @@ attribute_type_filters = {
     },
     'Album': {
         'Album_Name': capitalize_all_words,
-        'Album_Id': identity
+        'Album_Id': identity,
+        'Year': identity
     },
     'Playlist': {
         'Filepath': identity,
@@ -117,7 +128,8 @@ attribute_type_validators = {
     },
     'Album': {
         'Album_Name': validate_varchar,
-        'Album_Id': validate_integer
+        'Album_Id': validate_integer,
+        'Year': validate_integer
     },
     'Playlist': {
         'Filepath': validate_varchar,
@@ -136,63 +148,167 @@ attribute_type_validators = {
 }
 
 
-def make_input_for_attribute(entity_name, attribute):
-    attribute_name = attribute['name']
-    # attribute_type = attribute['type']
-    # print(attribute_type)
+def make_input_for_attribute(entity_name, attribute_name):
     return {
         'type': 'input',
         'name': attribute_name,
-        'message': 'Enter ' + attribute_name,
+        'message': 'Enter the ' + attribute_name,
+        'validate': attribute_type_validators[entity_name][attribute_name],
+        'filter': attribute_type_filters[entity_name][attribute_name]
+    }
+
+
+def validate_single_word(string):
+    return len(string.split()) == 1
+
+
+def make_input_for_attribute_single_word_key(entity_name, attribute_name):
+    return {
+        'type': 'input',
+        'name': attribute_name,
+        'message': 'Enter the ' + attribute_name,
         'validate': attribute_type_validators[entity_name][attribute_name],
         'filter': attribute_type_filters[entity_name][attribute_name]
     }
 
 
 def make_inputs_for_attributes(entity_name, attributes):
-    inputs = list(map(lambda attribute: make_input_for_attribute(entity_name, attribute),
+    inputs = list(map(lambda attribute: make_input_for_attribute(entity_name, attribute['name']),
                       attributes))
-    # print(inputs)
     return inputs
 
 
-# def perform_operation(**operation_data):
-# if True:
-# print(operation_data)
-# print(db.select_all('Artist'))
-
-# data = db.select_all('Artist')
-# data = db.fulltext_search_all_match(entity='Artist', attribute='Artist_Name', key='Nirvana')
-# table_wrapper = terminaltables.SingleTable([('Artist', 'Id')] + data)
-# print(table_wrapper.table)
-
-
-def print_table(db, entity_name):
-    rows = db.select_all(entity_name)
+def print_table(entity_name, rows):
     attribute_name = [tuple(i for i in get_entity_attributes_names(entity_name))]
     table_wrapper = terminaltables.SingleTable(attribute_name + rows)
     print(table_wrapper.table)
 
 
-def perform_insert(db, entity_name):
-    print_table(db, entity_name)
+def print_join(entity1_name, entity2_name, rows):
+    attribute1_name = [i for i in get_entity_attributes_names(entity1_name)]
+    attribute2_name = [i for i in get_entity_attributes_names(entity2_name)]
+    attribute_name = [tuple(attribute1_name + attribute2_name)]
+    table_wrapper = terminaltables.SingleTable(attribute_name + rows)
+    print(table_wrapper.table)
+
+
+def print_entity(db, entity_name):
+    rows = db.select_all(entity_name)
+    print_table(entity_name, rows)
+
+
+def print_fetch_all(db):
+    print(db.fetch_all())
+
+
+def prompt_input_attributes(entity_name):
     entity_data = get_entity_by_name(entity_name)
-    attributes_row = prompt(make_inputs_for_attributes(entity_name, entity_data['attributes']))
+    return prompt(make_inputs_for_attributes(entity_name, entity_data['attributes']))
+
+
+def perform_insert(db):
+    entity_name = prompt_entities()
+    print_entity(db, entity_name)
+    attributes_row = prompt_input_attributes(entity_name)
     db.insert(into=entity_name, row=attributes_row)
-    print_table(db, entity_name)
+    print_entity(db, entity_name)
 
 
-def perform_delete(db, entity_name):
+def perform_delete(db):
+    entity_name = prompt_entities()
     db.delete_all(entity_name)
 
 
-def perform_update(db, entity_name):
-    pass
+def perform_update(db):
+    entity_name = prompt_entities()
+    print(entity_name)
 
 
-def perform_select(db, entity_name):
-    pass
+def make_fulltext_handler():
+    def get_search_data(db, prompter, searcher):
+        entity_name = prompt_entities()
+        print(entity_name)
+        print_entity(db, entity_name)
+        attribute_name = prompt_text_attributes(entity_name)
+        key_questions = [prompter(entity_name, attribute_name)]
+        key = prompt(key_questions)[attribute_name]
 
+        search_args = {
+            'entity': entity_name,
+            'attribute': attribute_name,
+            'key': key
+        }
+
+        rows = searcher(db, search_args)
+        print_table(entity_name, rows)
+
+    def all_occur(db):
+        get_search_data(
+            db, make_input_for_attribute_single_word_key,
+            lambda db, search_args: db.fulltext_search_all_match(**search_args)
+        )
+
+    def one_doesnt(db):
+        get_search_data(
+            db, make_input_for_attribute,
+            lambda db, search_args: db.fulltext_search_one_not(**search_args)
+        )
+
+    modes = ("all words occur", "one word doesn't occur")
+    modes_handlers = {
+        "all words occur": all_occur,
+        "one word doesn't occur": one_doesnt
+    }
+
+    def do(db):
+        mode = prompt_list('modes', 'the search mode', modes)
+        handler = modes_handlers[mode]
+        handler(db)
+
+    return do
+
+
+fulltext_handler = make_fulltext_handler()
+
+
+def make_select_join_handler():
+    joins = [
+        ('Artist', 'release'),
+        ('release', 'Album'),
+        ('Track', 'Album')
+    ]
+
+    def do(db):
+        entity1_name = prompt_list('entity', 'the first entity', [entity['name'] for entity in entities])
+        joinable_entities = iter(join for join in joins if entity1_name in join)
+        joinable_entities_flatten = functools.reduce(lambda t, s: list(t)+list(s),
+                                                     joinable_entities)
+        entities_without_selected = [e for e in joinable_entities_flatten if e != entity1_name]
+        #entities_names = [entity['name'] for entity in entities_without_selected]
+        entity2_name = prompt_list('entity', 'the second entity', entities_without_selected)
+        rows = db.select_inner_join(entity1_name, entity2_name)
+        print_join(entity1_name, entity2_name, rows)
+
+    return do
+
+
+select_join_handler = make_select_join_handler()
+
+
+def perform_select_mixin():
+    options = ["fulltext search", "join"]
+    handlers = {"fulltext search": fulltext_handler,
+                "join": select_join_handler}
+
+    def do(db):
+        option = prompt_list('option', 'the SELECT option', options)
+        handler = handlers[option]
+        return handler(db)
+
+    return do
+
+
+perform_select = perform_select_mixin()
 
 operations_performers = {
     "INSERT": perform_insert,
@@ -200,34 +316,32 @@ operations_performers = {
     "UPDATE": perform_update,
     "SELECT": perform_select
 }
-joins = {
-    'Artist': 'Artist_Id',
-    'Album': 'Album_Id',
-    'Playlist': 'Filepath',
-    'Track': 'Track_Id',
-    'release': {
-        'Track_Id',
-        'Artist_Id'
-    }
-}
+
+
+def prompt_main_menu(db):
+    operation_name = prompt_list('operation', 'the operation to perform', operations)
+    if operation_name == "QUIT":
+        return operation_name
+    performer = operations_performers[operation_name]
+    return performer(db)
 
 
 def main(db):
-    operation_and_entity_or_quit = prompt(qq, style=green_style)
-    entity_name = operation_and_entity_or_quit['entity']
-    operation = operation_and_entity_or_quit['operation']
     try:
-        performer = operations_performers[operation]
-    except ValueError:
-        operation_and_entity = operation_and_entity_or_quit
-        attribute = prompt_attributes(operation_and_entity['entity'])
-    else:
-        performer(db, entity_name)
+        while prompt_main_menu(db) != "QUIT":
+            pass
+    except psycopg2.IntegrityError as error:
+        print(error.pgerror)
 
 
 if __name__ == '__main__':
+    connection_parameters = {
+        'user': 'postgres', 'host': 'localhost', 'password': 'py', 'database': 'db1'
+    }
     with MusicLibraryDatabase([], **connection_parameters) as db_handle:
         main(db_handle)
+
+# entity_name = prompt_list('entity', 'an entity', [entity['name'] for entity in entities])
 
 """
 {'type': 'list',
@@ -237,3 +351,4 @@ if __name__ == '__main__':
      'validate': lambda answer: print(answer) or 'Sorry, try again' if len(answer) == 0 else True,
      'when': lambda answer: (print(answer) and False) or answer['operation'] == "INSERT"}
      """
+

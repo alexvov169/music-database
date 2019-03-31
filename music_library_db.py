@@ -120,6 +120,9 @@ class MusicLibraryDatabase:
         except psycopg2.ProgrammingError:
             return []
 
+    def fetch_all(self):
+        return self._fetch_all()
+
     def insert(self, into, row):
         self._execute("INSERT INTO %s %s VALUES %s", into, row)
 
@@ -158,27 +161,51 @@ class MusicLibraryDatabase:
     def select(self, entity, attribute, *values):
         self.cursor.execute(("SELECT * FROM %s WHERE %s IN %%s;" % (entity, attribute)), *values)
 
-    def get_key(self, entity):
-        return
+    @staticmethod
+    def _get_key(entity):
+        key_attrs = {
+            'Artist': 'Artist_Id',
+            'Album': 'Album_Id',
+            'Track': 'Track_Id',
+            'release': {
+                'Track_Id',
+                'Artist_Id'
+            }
+        }
+        return key_attrs[entity]
 
     def select_inner_join(self, entity1, entity2):
-        self.cursor.execute("SELECT * FROM %s INNER JOIN %s ON %s.%s = %s.%s"
-                            % (entity1, entity2, self.get_key(entity1), self.get_key(entity2)))
+        key_attr = self._get_key(entity1)
+        if not isinstance(key_attr, str):
+            key_attr = self._get_key(entity2)
+            if not isinstance(key_attr, str):
+                raise Exception()
+
+        query = "SELECT * FROM %s INNER JOIN %s ON %s.%s = %s.%s"\
+                % (entity1, entity2,
+                   entity1, key_attr,
+                   entity2, key_attr)
+        print(query)
+        self.cursor.execute(query)
+        return self._fetch_all()
 
     def fulltext_search_all_match(self, entity, attribute, key):
         query = """select * from %s WHERE to_tsvector(%s) @@ to_tsquery('%s');"""
         query = query % (entity, attribute, ' & '.join(key.split()))
+        print(query)
         self.cursor.execute(query, (entity, attribute, key))
         return self._fetch_all()
 
     def fulltext_search_all_match_query_from_plaintext(self, entity, attribute, key):
         query = """select * from %s WHERE to_tsvector(%s) @@ plainto_tsquery('%s');"""
         query = query % (entity, attribute, key)
+        print(query)
         self.cursor.execute(query, (entity, attribute, key))
         return self._fetch_all()
 
-    def fulltext_search_all_not(self, entity, attribute, key):
+    def fulltext_search_one_not(self, entity, attribute, key):
         query = """select * from %s WHERE to_tsvector(%s) @@ to_tsquery('!%s');"""
         query = query % (entity, attribute, key)
+        print(query)
         self.cursor.execute(query, (entity, attribute, key))
         return self._fetch_all()
