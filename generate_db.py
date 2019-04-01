@@ -11,6 +11,7 @@ from music_library_db import *
 
 scrobbler_root = "http://ws.audioscrobbler.com/2.0/"
 
+# yeah, i give it to you
 api_account_details = {
  'api_key': '4a6facf7352d482ddd5a5cf8b7dd88bf',
  'api_secret': '94a63b6915912ad000415fe27d8833db',
@@ -29,13 +30,27 @@ def last_get(method, api_key, options, file_format='json'):
     return requests.get(req)
 
 
+def get_tag_description(tag_name):
+    description_resp = last_get(method="tag.getinfo", api_key=api_account_details['api_key'],
+                                options={'tag': tag_name})
+    description_json = description_resp.json()
+    return description_json['tag']['wiki']['summary']
+
+
+TAGS_LIMIT = 5
+
+
+def published_date_to_year(published_date):
+    return int(published_date.split()[2][:-1])
+
+
 def get_album(album, artist_name):
     album_name = album['name']
     response = last_get(method="album.getinfo", api_key=api_account_details['api_key'],
                         options={'artist': artist_name, 'album': album_name})
     try:
         album_info = response.json()['album']
-    except KeyError:
+    except:
         return None
     else:
         tracks = list(map(lambda track: {"name": track['name'],
@@ -44,14 +59,26 @@ def get_album(album, artist_name):
                           album_info['tracks']['track']))
         try:
             published_info = album_info['wiki']['published']
-        except KeyError:
+            tags_resp = last_get(method='album.gettoptags', api_key=api_account_details['api_key'],
+                                 options={'artist': artist_name, 'album': album_name})
+            tags_json = tags_resp.json()
+            tags = tags_json['toptags']['tag'][:TAGS_LIMIT]
+            bar = pyprind.ProgBar(TAGS_LIMIT, title='Fetching album %s description' % album_name)
+
+            def tag_proc(tag):
+                bar.update()
+                return {'name': tag['name'], 'description': get_tag_description(tag['name'])}
+
+            tags = [tag_proc(tag) for tag in tags]
+        except:
             return None
         else:
             return {"name": album_name,
                     "listeners": album_info['listeners'],
                     "playcount": album['playcount'],
-                    "published": published_info,
-                    "tracks": tracks}
+                    "published": published_date_to_year(published_info),
+                    "tracks": tracks,
+                    "tags": tags}
 
 
 def get_top_albums(artist_name):
@@ -62,23 +89,33 @@ def get_top_albums(artist_name):
                            response.json()['topalbums']['album'])))
 
 
+def get_artist_description(artist_name):
+    response = last_get(method="artist.getinfo", api_key=api_account_details['api_key'],
+                        options={'artist': artist_name})
+    description_json = response.json()
+    return description_json['artist']['bio']['summary']
+
+
 def make_artist_with_tracks(artist):
     return {"artist": artist,
-            "albums": get_top_albums(artist['name'])}
+            "albums": get_top_albums(artist['name']),
+            "description": get_artist_description(artist['name'])}
 
 
-def dump_artists_json(file, country="Ukraine", artists_limit=10):
+def dump_artists_json(file, country="United States", artists_limit=10):
     artists_get_response = last_get(method="geo.getTopArtists", api_key=api_account_details['api_key'],
                                     options={'country': country, 'limit': artists_limit})
 
     top_artists_json = artists_get_response.json()
+    artists = top_artists_json['topartists']['artist']
     artists_json = [{"name": artist['name'], "listeners": artist['listeners']}
-                    for artist in top_artists_json['topartists']['artist']]
+                    for artist in artists]
 
-    artists_json.sort(key=lambda artist: int(artist['listeners']), reverse=True)
-    artists_json = list(map(make_artist_with_tracks, pyprind.prog_bar(artists_json)))
+    artists_json.sort(key=lambda artist: int(artist['listeners']), reverse=False)
+    print("SORTED")
+    artists_json = list(map(make_artist_with_tracks, artists_json))
 
-    with open(file, 'w') as f:
+    with open(file, 'w', encoding='utf-8') as f:
         json.dump({"topartists": artists_json}, f, indent=True)
 
 
@@ -103,36 +140,77 @@ def json_to_rows(file):
 
 
 csv_file = 'artists.csv'
-json_file = 'artist.json'
+json_file = 'music_library.json'
 #dump_artists_json(json_file, artists_limit=30, country="United States")
-dump_artists_json(json_file, artists_limit=30)
-rows_to_csv(json_to_rows(json_file), csv_file)
+#dump_artists_json(json_file, artists_limit=30)
+#rows_to_csv(json_to_rows(json_file), csv_file)
 
 
-connection_parameters = {
-    'user': 'postgres', 'host': 'localhost', 'password': 'py', 'database': 'db1'
-}
+def load_json():
+    with open(json_file, encoding='utf-8') as json_stream:
+        return json.load(json_stream)
 
 
-def main():
+class AlbumToDB:
+    def __init__(self):
+        self.album_counter = 0
+
+    def next(self, db, album, artist_id):
+        db.insert(into="Album", row={'Album_Id': self.album_counter, 'Album_Name': album['name'],
+                                     'Artist_Id': artist_id, 'Year': album['published']})
+        print(self.album_counter)
+        self.album_counter += 1
+
+
+album_to_db = AlbumToDB()
+
+
+def artist_to_db(db, artist, artist_i):
+    albums = artist['albums']
+    artist_name = artist['artist']['name']
+    db.insert(into="Artist", row={'Artist_Id': artist_i, 'Artist_Name': artist_name,
+                                  'Artist_Description': artist['description']})
+    for album in albums:
+        album_to_db.next(db, album, artist_i)
+
+
+
+def json_to_db(db, json_data):
+    json_data = json_data['topartists']
+    artist_i = 3
+    for artist in json_data:
+        artist_to_db(db, artist, artist_i)
+        artist_i += 1
+
+
+def main(db):
+    #dump_artists_json(json_file, artists_limit=2, country="United States")
+    json_data = load_json()
+    json_to_db(db, json_data)
+
     """
-    with MusicLibraryDatabase([], **connection_parameters) as db:
-        print(db.select_all('Artist'))
-        with open(csv_file) as f:
-            reader = csv.reader(f, delimiter=';')
-            i = 1
-            # db.delete_all(entity=Entity.Artist)
-            for row in reader:
-                # db.insert(into=Entity.Artist, row={Artist.Name: row[0], Artist.Id: i})
-                i += 1
+    print(db.select_all('Artist'))
+    with open(csv_file) as f:
+        reader = csv.reader(f, delimiter=';')
+        i = 1
+        # db.delete_all(entity=Entity.Artist)
+        for row in reader:
+            # db.insert(into=Entity.Artist, row={Artist.Name: row[0], Artist.Id: i})
+            i += 1
 
-        data = db.select_all('Artist')
-        data = db.fulltext_search_all_match(entity='Artist', attribute='Artist_Name', key='Nirvana')
-        table_wrapper = terminaltables.SingleTable([('Artist', 'Id')] + data)
-        print(table_wrapper.table)
+    data = db.select_all('Artist')
+    data = db.fulltext_search_all_match(entity='Artist', attribute='Artist_Name', key='Nirvana')
+    table_wrapper = terminaltables.SingleTable([('Artist', 'Id')] + data)
+    print(table_wrapper.table)
     """
 
-# main()
+
+if __name__ == '__main__':
+    connection_parameters = {
+        'user': 'postgres', 'host': 'localhost', 'password': 'py', 'database': 'db1'
+    }
+    with MusicLibraryDatabase(**connection_parameters) as db_handle:
+        main(db_handle)
 
 
 """

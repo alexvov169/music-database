@@ -84,7 +84,7 @@ def prompt_attributes_selection(entity_name):
 
 
 csv_file = 'artists.csv'
-json_file = 'artist.json'
+json_file = 'music_library.json'
 
 
 def capitalize_all_words(val):
@@ -108,43 +108,57 @@ def identity(x): return x
 attribute_type_filters = {
     'Artist': {
         'Artist_Name': capitalize_all_words,
+        'Artist_Description': identity,
         'Artist_Id': int
     },
     'Album': {
         'Album_Name': capitalize_all_words,
         'Album_Id': int,
+        'Artist_Id': int,
         'Year': int
+    },
+    'Tag': {
+        'Tag_Name': capitalize_all_words,
+        'Tag_Description': identity,
+        'Tag_Id': int
+    },
+    'has': {
+        'Album_Id': int,
+        'Tag_Id': int
     },
     'Track': {
         'Track_Name': capitalize_all_words,
         'Track_Id': int,
-        'Number': int,
+        'Rank': int,
         'Album_Id': int
     },
-    'release': {
-        'Album_Id': int,
-        'Artist_Id': int
-    }
 }
 attribute_type_validators = {
     'Artist': {
         'Artist_Name': validate_varchar,
+        'Artist_Description': validate_varchar,
         'Artist_Id': validate_integer
     },
     'Album': {
         'Album_Name': validate_varchar,
         'Album_Id': validate_integer,
+        'Artist_Id': validate_integer,
         'Year': validate_integer
+    },
+    'Tag': {
+        'Tag_Name': validate_varchar,
+        'Tag_Description': validate_varchar,
+        'Tag_Id': validate_integer
+    },
+    'has': {
+        'Album_Id': validate_integer,
+        'Tag_Id': validate_integer
     },
     'Track': {
         'Track_Name': validate_varchar,
         'Track_Id': validate_integer,
-        'Number': validate_integer,
+        'Rank': validate_integer,
         'Album_Id': validate_integer
-    },
-    'release': {
-        'Album_Id': validate_integer,
-        'Artist_Id': validate_integer
     }
 }
 
@@ -179,8 +193,16 @@ def make_inputs_for_attributes(entity_name, attributes):
     return inputs
 
 
+def shrink_cells(rows, length=27):
+    return [tuple(cell[:length]+'...' if isinstance(cell, str) and len(cell) > length
+                  else cell
+                  for cell in row)
+            for row in rows]
+
+
 def print_table(entity_name, rows):
     attribute_name = [tuple(i for i in get_entity_attributes_names(entity_name))]
+    rows = shrink_cells(rows)
     table_wrapper = terminaltables.SingleTable(attribute_name + rows)
     print(table_wrapper.table)
 
@@ -189,6 +211,7 @@ def print_join(entity1_name, entity2_name, rows):
     attribute1_name = [i for i in get_entity_attributes_names(entity1_name)]
     attribute2_name = [i for i in get_entity_attributes_names(entity2_name)]
     attribute_name = [tuple(attribute1_name + attribute2_name)]
+    rows = shrink_cells(rows)
     table_wrapper = terminaltables.SingleTable(attribute_name + rows)
     print(table_wrapper.table)
 
@@ -274,7 +297,7 @@ def prompt_attribute_search_key_input(entity_name, attribute_name):
 
 def perform_update(db):
     entity_name = prompt_entities()
-    key_attribute = db.get_key(entity_name)
+    key_attributes = db.get_key(entity_name)
     attributes = prompt_type('checkbox', 'attribute', 'the attribute(s) to update',
                              [i for i in get_entity_attributes_names(entity_name)])
 
@@ -288,12 +311,13 @@ def perform_update(db):
         'message': 'Enter the ' + key_attribute + ' to specify the tuple',
         'validate': attribute_type_validators[entity_name][key_attribute],
         'filter': attribute_type_filters[entity_name][key_attribute]
-    }]
-    key_attribute_value = prompt(key_attribute_prompt)[key_attribute]
+    } for key_attribute in key_attributes]
+    key_attribute_value = prompt(key_attribute_prompt)
+    # print(key_attribute_value)
     attributes_keys_prompts = [make_input_for_attribute(entity_name, attribute_name)
                                for attribute_name in attributes]
     attributes_row = prompt(attributes_keys_prompts)
-    print(attributes_row)
+    # print(attributes_row)
     db.update(entity_name, key_attribute_value, attributes_row)
     print_entity(db, entity_name)
 
@@ -301,7 +325,7 @@ def perform_update(db):
 def make_fulltext_handler():
     def get_search_data(db, prompter, searcher):
         entity_name = prompt_entities()
-        print(entity_name)
+        # print(entity_name)
         print_entity(db, entity_name)
         attribute_name = prompt_text_attributes(entity_name)
         key_questions = [prompter(entity_name, attribute_name)]
@@ -356,7 +380,7 @@ def make_select_join_handler():
         entities_without_selected = [e for e in joinable_entities_flatten if e != entity1_name]
         entity2_name = prompt_list('entity', 'the second entity', entities_without_selected)
         join_attribute = next(join['id'] for join in joins
-                              if join['pair'] == (entity1_name, entity2_name))
+                              if join['pair'] == {entity1_name, entity2_name})
 
         entity1_attributes_selected = prompt_type('checkbox', 'attribute',
                                                   'the ' + entity1_name + ' attribute(s) to search',
