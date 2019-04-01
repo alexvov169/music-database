@@ -11,22 +11,17 @@ DATABASE_DATA = {'entities': [{'name': 'Artist',
                                                'type': 'INT'},
                                               {'name': 'Year',
                                                'type': 'INT'}]},
-                              {'name': 'Playlist',
-                               'attributes': [{'name': 'Filepath',
-                                               'type': 'VARCHAR'},
-                                              {'name': 'Description',
-                                               'type': 'VARCHAR'},
-                                              {'name': 'Playlist_Name',
-                                               'type': 'VARCHAR'}]},
                               {'name': 'Track',
                                'attributes': [{'name': 'Track_Name',
                                                'type': 'VARCHAR'},
                                               {'name': 'Track_Id',
                                                'type': 'INT'},
                                               {'name': 'Number',
+                                               'type': 'INT'},
+                                              {'name': 'Album_Id',
                                                'type': 'INT'}]},
                               {'name': 'release',
-                               'attributes': [{'name': 'Track_Id',
+                               'attributes': [{'name': 'Album_Id',
                                                'type': 'INT'},
                                               {'name': 'Artist_Id',
                                                'type': 'INT'}]}]}
@@ -44,18 +39,9 @@ class MusicLibraryDatabase:
     CREATE TABLE Album
     (
       Album_Name VARCHAR(256) NOT NULL,
-      Album_Genre VARCHAR(256) NOT NULL,
       Album_Id INT NOT NULL,
       Year INT NOT NULL,
       PRIMARY KEY (Album_Id)
-    );
-
-    CREATE TABLE Playlist
-    (
-      Filepath VARCHAR(4096) NOT NULL,
-      Description VARCHAR(4096) NOT NULL,
-      Playlist_Name VARCHAR(256) NOT NULL,
-      PRIMARY KEY (Filepath)
     );
 
     CREATE TABLE release
@@ -73,16 +59,14 @@ class MusicLibraryDatabase:
       Track_Id INT NOT NULL,
       Number INT NOT NULL,
       Album_Id INT NOT NULL,
-      Filepath VARCHAR(4096) NOT NULL,
       PRIMARY KEY (Track_Id),
-      FOREIGN KEY (Album_Id) REFERENCES Album(Album_Id),
-      FOREIGN KEY (Filepath) REFERENCES Playlist(Filepath)
+      FOREIGN KEY (Album_Id) REFERENCES Album(Album_Id)
     );
     """
 
-    def __init__(self, files, user, host, password, database):
-        self.connector = psycopg2.connect("dbname='music_library' user='postgres' host='localhost' password='py'")
-        #psycopg2.connect(user=user, host=host, password=password, database=database)
+    def __init__(self, user, host, password, database):
+        self.connector = psycopg2.connect(user=user, host=host, password=password, database=database)
+        # psycopg2.connect("dbname='db1' user='postgres' host='localhost' password='py'")
         self.cursor = self.connector.cursor()
         #try:
             #self.cursor.execute(self._SQL_CREATE_SCRIPT)
@@ -139,16 +123,27 @@ class MusicLibraryDatabase:
         pass
 
     def fulltext_not_occurred(self, table, text):
+        """mysql; not working"""
         self.cursor.execute("""SELECT * FROM %s WHERE MATCH(col1, col2)
                AGAINST('search terms' IN BOOLEAN MODE)""")
 
     @staticmethod
-    def _row_to_condition(row, op="OR"):
+    def _kv_to_sql(k, v):
+        return ("%s=%s" if isinstance(v, int) else "%s='%s'") % (k, v)
+
+    @staticmethod
+    def _kv_to_sql_with_entity(e, k, v):
+        cond = (("%s.%s=%s" % (e, k, v)) if isinstance(v, int) else
+                ("%s.%s='%s'" % (e, k, v)) if isinstance(v, str) else
+                ("%s.%s >= %s AND %s.%s <= %s" % (e, k, v['lower'], e, k, v['upper']))
+                if isinstance(v, dict) else "")
+        return cond
+
+
+    def _row_to_condition(self, row, op=" OR "):
         row = [[k, v] for k, v in row.items()]
-        s = "%s=%s " % (row[0][0], row[0][1])
-        for k, v in row[1:]:
-            s = s + op + " %s=%s" % (k, v)
-        return s
+        condition = op.join(self._kv_to_sql(*kv) for kv in row)
+        return condition
 
     def delete(self, entity, row):
         self._execute("DELETE FROM %s WHERE CustomerName='Alfreds Futterkiste';", entity, row)
@@ -168,44 +163,59 @@ class MusicLibraryDatabase:
             'Album': 'Album_Id',
             'Track': 'Track_Id',
             'release': {
-                'Track_Id',
+                'Album_Id',
                 'Artist_Id'
             }
         }
         return key_attrs[entity]
 
-    def select_inner_join(self, entity1, entity2):
-        key_attr = self._get_key(entity1)
-        if not isinstance(key_attr, str):
-            key_attr = self._get_key(entity2)
-            if not isinstance(key_attr, str):
-                raise Exception()
+    def get_key(self, entity):
+        return self._get_key(entity)
 
-        query = "SELECT * FROM %s INNER JOIN %s ON %s.%s = %s.%s"\
+    def _dict_list_to_condition(self, entity, dict_list, op=' AND '):
+        return op.join(op.join(self._kv_to_sql_with_entity(entity, k, v) for k, v in d.items())
+                       for d in dict_list)
+
+    def select_inner_join(self, entity1, entity2, key_attr, entity1_key_val, entity2_key_val):
+        condition_1 = self._dict_list_to_condition(entity1, entity1_key_val)
+        condition_2 = self._dict_list_to_condition(entity2, entity2_key_val)
+
+        condition = ' and '.join((condition_1, condition_2))
+
+        query = "SELECT * FROM %s INNER JOIN %s ON %s.%s = %s.%s WHERE %s;"\
                 % (entity1, entity2,
                    entity1, key_attr,
-                   entity2, key_attr)
-        print(query)
+                   entity2, key_attr,
+                   condition)
+        print('psql> '+query)
         self.cursor.execute(query)
         return self._fetch_all()
 
     def fulltext_search_all_match(self, entity, attribute, key):
         query = """select * from %s WHERE to_tsvector(%s) @@ to_tsquery('%s');"""
         query = query % (entity, attribute, ' & '.join(key.split()))
-        print(query)
+        print('psql> '+query)
         self.cursor.execute(query, (entity, attribute, key))
         return self._fetch_all()
 
     def fulltext_search_all_match_query_from_plaintext(self, entity, attribute, key):
         query = """select * from %s WHERE to_tsvector(%s) @@ plainto_tsquery('%s');"""
         query = query % (entity, attribute, key)
-        print(query)
+        print('psql> '+query)
         self.cursor.execute(query, (entity, attribute, key))
         return self._fetch_all()
 
     def fulltext_search_one_not(self, entity, attribute, key):
         query = """select * from %s WHERE to_tsvector(%s) @@ to_tsquery('!%s');"""
         query = query % (entity, attribute, key)
-        print(query)
+        print('psql> '+query)
         self.cursor.execute(query, (entity, attribute, key))
+        return self._fetch_all()
+
+    def update(self, entity, key, row):
+        query = "UPDATE %s SET %s WHERE %s = %s;"
+        assignment = self._row_to_condition(row, op=", ")
+        query = query % (entity, assignment, self.get_key(entity), key)
+        print('psql> '+query)
+        self.cursor.execute(query)
         return self._fetch_all()
