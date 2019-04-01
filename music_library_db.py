@@ -1,4 +1,12 @@
 import psycopg2
+joins = [
+        {'pair': ('Artist', 'release'),
+         'id': 'Artist_Id'},
+        {'pair': ('Track', 'Album'),
+         'id': 'Album_Id'},
+        {'pair': ('release', 'Album'),
+         'id': 'Album_Id'},
+    ]
 DATABASE_DATA = {'entities': [{'name': 'Artist',
                                'attributes': [{'name': 'Artist_Name',
                                                'type': 'VARCHAR'},
@@ -113,9 +121,6 @@ class MusicLibraryDatabase:
     def delete_all(self, entity):
         self.cursor.execute("DELETE FROM %s;" % entity)
 
-    def edit(self, what, where, replacement):
-        pass
-
     def drop_table(self, table):
         pass
 
@@ -138,7 +143,6 @@ class MusicLibraryDatabase:
                 ("%s.%s >= %s AND %s.%s <= %s" % (e, k, v['lower'], e, k, v['upper']))
                 if isinstance(v, dict) else "")
         return cond
-
 
     def _row_to_condition(self, row, op=" OR "):
         row = [[k, v] for k, v in row.items()]
