@@ -5,4 +5,4 @@
 ![alt text](https://raw.githubusercontent.com/alexvov169/music-database/master/screens/scr1.bmp)
 ![alt text](https://raw.githubusercontent.com/alexvov169/music-database/master/screens/scr2.bmp)
 ![alt text](https://raw.githubusercontent.com/alexvov169/music-database/master/screens/scr3.bmp)
-![alt text](https://raw.githubusercontent.com/alexvov169/music-database/master/screens/scr4.bmp)
+![alt text](https://raw.githubusercontent.com/alexvov169/music-database/master/screens/src4.bmp)
