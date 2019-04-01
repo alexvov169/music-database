@@ -277,6 +277,9 @@ def perform_update(db):
     key_attribute = db.get_key(entity_name)
     attributes = prompt_type('checkbox', 'attribute', 'the attribute(s) to update',
                              [i for i in get_entity_attributes_names(entity_name)])
+
+    if len(attributes) == 0:
+        raise KeyError("At least one attribute must have been selected to perform update")
     # print(attributes)
 
     key_attribute_prompt = [{
@@ -343,15 +346,6 @@ fulltext_handler = make_fulltext_handler()
 
 
 def make_select_join_handler():
-    joins = [
-        {'pair': ('Artist', 'release'),
-         'id': 'Artist_Id'},
-        {'pair': ('Track', 'Album'),
-         'id': 'Album_Id'},
-        {'pair': ('release', 'Album'),
-         'id': 'Album_Id'},
-    ]
-
     def do(db):
         entity1_name = prompt_list('entity', 'the first entity', [entity['name'] for entity in entities])
 
