@@ -1,14 +1,19 @@
 import psycopg2
 joins = [
-        {'pair': ('Artist', 'release'),
-         'id': 'Artist_Id'},
-        {'pair': ('Track', 'Album'),
-         'id': 'Album_Id'},
-        {'pair': ('release', 'Album'),
-         'id': 'Album_Id'},
-    ]
+    {'pair': {'has', 'Tag'},
+     'id': 'Tag_Id'},
+    {'pair': {'Track', 'Album'},
+     'id': 'Album_Id'},
+    {'pair': {'Album', 'has'},
+     'id': 'Album_Id'},
+    {'pair': {'Album', 'Artist'},
+     'id': 'Artist_Id'}
+]
+
 DATABASE_DATA = {'entities': [{'name': 'Artist',
                                'attributes': [{'name': 'Artist_Name',
+                                               'type': 'VARCHAR'},
+                                              {'name': 'Artist_Description',
                                                'type': 'VARCHAR'},
                                               {'name': 'Artist_Id',
                                                'type': 'INT'}]},
@@ -18,59 +23,83 @@ DATABASE_DATA = {'entities': [{'name': 'Artist',
                                               {'name': 'Album_Id',
                                                'type': 'INT'},
                                               {'name': 'Year',
+                                               'type': 'INT'},
+                                              {'name': 'Artist_Id',
+                                               'type': 'INT'},
+                                              ]},
+                              {'name': 'Tag',
+                               'attributes': [{'name': 'Tag_Name',
+                                               'type': 'VARCHAR'},
+                                              {'name': 'Tag_Description',
+                                               'type': 'VARCHAR'},
+                                              {'name': 'Tag_Id',
+                                               'type': 'INT'}]},
+                              {'name': 'has',
+                               'attributes': [{'name': 'Album_Id',
+                                               'type': 'INT'},
+                                              {'name': 'Tag_Id',
                                                'type': 'INT'}]},
                               {'name': 'Track',
                                'attributes': [{'name': 'Track_Name',
                                                'type': 'VARCHAR'},
                                               {'name': 'Track_Id',
                                                'type': 'INT'},
-                                              {'name': 'Number',
+                                              {'name': 'Rank',
                                                'type': 'INT'},
                                               {'name': 'Album_Id',
-                                               'type': 'INT'}]},
-                              {'name': 'release',
-                               'attributes': [{'name': 'Album_Id',
-                                               'type': 'INT'},
-                                              {'name': 'Artist_Id',
                                                'type': 'INT'}]}]}
+
+_SQL_CREATE_TABLE_SCRIPT = """
+CREATE TABLE Artist
+(
+  Artist_Name VARCHAR(128) NOT NULL,
+  Artist_Description VARCHAR(4096) NOT NULL,
+  Artist_Id INT NOT NULL,
+  PRIMARY KEY (Artist_Id)
+);
+
+CREATE TABLE Album
+(
+  Album_Name VARCHAR(128) NOT NULL,
+  Album_Id INT NOT NULL,
+  Year INT NOT NULL,
+  Artist_Id INT NOT NULL,
+  PRIMARY KEY (Album_Id),
+  FOREIGN KEY (Artist_Id) REFERENCES Artist(Artist_Id)
+);
+
+CREATE TABLE Tag
+(
+  Tag_Id INT NOT NULL,
+  Tag_Name VARCHAR(128) NOT NULL,
+  Tag_Description VARCHAR(4096) NOT NULL,
+  PRIMARY KEY (Tag_Id)
+);
+
+CREATE TABLE has
+(
+  Album_Id INT NOT NULL,
+  Tag_Id INT NOT NULL,
+  PRIMARY KEY (Album_Id, Tag_Id),
+  FOREIGN KEY (Album_Id) REFERENCES Album(Album_Id),
+  FOREIGN KEY (Tag_Id) REFERENCES Tag(Tag_Id)
+);
+
+CREATE TABLE Track
+(
+  Track_Name VARCHAR(128) NOT NULL,
+  Track_Id INT NOT NULL,
+  Rank INT NOT NULL,
+  Duration INT NOT NULL,
+  Album_Id INT NOT NULL,
+  PRIMARY KEY (Track_Id),
+  FOREIGN KEY (Album_Id) REFERENCES Album(Album_Id)
+);
+"""
 
 
 class MusicLibraryDatabase:
-    _SQL_CREATE_SCRIPT = """
-    CREATE TABLE Artist
-    (
-      Artist_Name VARCHAR(256) NOT NULL,
-      Artist_Id INT NOT NULL,
-      PRIMARY KEY (Artist_Id)
-    );
-
-    CREATE TABLE Album
-    (
-      Album_Name VARCHAR(256) NOT NULL,
-      Album_Id INT NOT NULL,
-      Year INT NOT NULL,
-      PRIMARY KEY (Album_Id)
-    );
-
-    CREATE TABLE release
-    (
-      Artist_Id INT NOT NULL,
-      Album_Id INT NOT NULL,
-      PRIMARY KEY (Artist_Id, Album_Id),
-      FOREIGN KEY (Artist_Id) REFERENCES Artist(Artist_Id),
-      FOREIGN KEY (Album_Id) REFERENCES Album(Album_Id)
-    );
-
-    CREATE TABLE Track
-    (
-      Track_Name VARCHAR(256) NOT NULL,
-      Track_Id INT NOT NULL,
-      Number INT NOT NULL,
-      Album_Id INT NOT NULL,
-      PRIMARY KEY (Track_Id),
-      FOREIGN KEY (Album_Id) REFERENCES Album(Album_Id)
-    );
-    """
+    _SQL_CREATE_SCRIPT = _SQL_CREATE_TABLE_SCRIPT
 
     def __init__(self, user, host, password, database):
         self.connector = psycopg2.connect(user=user, host=host, password=password, database=database)
@@ -163,12 +192,13 @@ class MusicLibraryDatabase:
     @staticmethod
     def _get_key(entity):
         key_attrs = {
-            'Artist': 'Artist_Id',
-            'Album': 'Album_Id',
-            'Track': 'Track_Id',
-            'release': {
+            'Artist': {'Artist_Id'},
+            'Album': {'Album_Id'},
+            'Track': {'Track_Id'},
+            'Tag': {'Tag_Id'},
+            'has': {
                 'Album_Id',
-                'Artist_Id'
+                'Tag_Id'
             }
         }
         return key_attrs[entity]
@@ -217,9 +247,10 @@ class MusicLibraryDatabase:
         return self._fetch_all()
 
     def update(self, entity, key, row):
-        query = "UPDATE %s SET %s WHERE %s = %s;"
+        query = "UPDATE %s SET %s WHERE %s;"
         assignment = self._row_to_condition(row, op=", ")
-        query = query % (entity, assignment, self.get_key(entity), key)
+        condition = self._row_to_condition(key, op=' AND ')
+        query = query % (entity, assignment, condition)
         print('psql> '+query)
         self.cursor.execute(query)
         return self._fetch_all()
