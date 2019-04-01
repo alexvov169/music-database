@@ -1,0 +1,1007 @@
+{
+ "topartists": [
+  {
+   "artist": {
+    "name": "Drake",
+    "listeners": "3375479"
+   },
+   "albums": [
+    {
+     "name": "So Far Gone",
+     "listeners": "944076",
+     "playcount": 8175240,
+     "published": 2010,
+     "tracks": [
+      {
+       "name": "Lust for Life",
+       "duration": "176",
+       "rank": "1"
+      },
+      {
+       "name": "Houstatlantavegas",
+       "duration": "291",
+       "rank": "2"
+      },
+      {
+       "name": "Successful",
+       "duration": "375",
+       "rank": "3"
+      },
+      {
+       "name": "Let's Call It Off",
+       "duration": "234",
+       "rank": "4"
+      },
+      {
+       "name": "November 18th",
+       "duration": "188",
+       "rank": "5"
+      },
+      {
+       "name": "Ignant Shit",
+       "duration": "302",
+       "rank": "6"
+      },
+      {
+       "name": "A Night Off",
+       "duration": "193",
+       "rank": "7"
+      },
+      {
+       "name": "Say Whats Real",
+       "duration": "230",
+       "rank": "8"
+      },
+      {
+       "name": "Little Bit",
+       "duration": "230",
+       "rank": "9"
+      },
+      {
+       "name": "Best I Ever Had",
+       "duration": "258",
+       "rank": "10"
+      },
+      {
+       "name": "Unstoppable",
+       "duration": "209",
+       "rank": "11"
+      },
+      {
+       "name": "Uptown",
+       "duration": "382",
+       "rank": "12"
+      },
+      {
+       "name": "Sooner Than Later",
+       "duration": "262",
+       "rank": "13"
+      },
+      {
+       "name": "Bria's Interlude",
+       "duration": "139",
+       "rank": "14"
+      },
+      {
+       "name": "The Calm",
+       "duration": "244",
+       "rank": "15"
+      },
+      {
+       "name": "Outro",
+       "duration": "174",
+       "rank": "16"
+      },
+      {
+       "name": "Brand New",
+       "duration": "213",
+       "rank": "17"
+      }
+     ],
+     "tags": [
+      {
+       "name": "hip hop",
+       "description": "Hip hop is a musical genre which developed alongside hip hop culture, defined by key stylistic elements such as rapping, DJing, sampling, scratching and beatboxing. Hip hop began in the Bronx in New York City in the 1970s, primarily among African Americans and Jamaican Americans, with some Latino influences.\n\nThe term rap is often used synonymously with hip hop, but hip hop denotes the practices of an entire subculture. Hip hop arose when DJs began isolating the percussion break from funk or disco songs for audiences to dance to. <a href=\"http://www.last.fm/tag/hip+hop\">Read more on Last.fm</a>."
+      },
+      {
+       "name": "Hip-Hop",
+       "description": "Hip-hop, also spelled hip hop or hiphop is a rhythm focused popular music style, originating from New York in the 70s. The term rap is sometimes used synonymously with hip-hop music. Hip-hop arose when DJs began isolating the percussion break from funk or disco songs for audiences to dance to.\nIt is now seen as a worldwide and popular genre ranging from American Mainstream (e.g. Eminem, Lil Wayne) to British Undergound (e.g. Wiley, EMC Junkie etc) <a href=\"http://www.last.fm/tag/Hip-Hop\">Read more on Last.fm</a>."
+      },
+      {
+       "name": "rap",
+       "description": "Rap is a vocal style, usually coming together with hip-hop, the musical genre off-shoot of the hip hop culture. Rapping itself, also known as emceeing, MCing, spitting, or just rhyming, is the rhythmic spoken delivery of rhymes and wordplay. Rapping is one of the four pillars of the hip hop culture, along with DJing, graffiti, and breaking.\n\nRap is also considered a separate genre from hip hop in some cases where the artists do not make music compatible with the hip hop culture. <a href=\"http://www.last.fm/tag/rap\">Read more on Last.fm</a>."
+      },
+      {
+       "name": "rnb",
+       "description": "\nRhythm and blues is a term describing popular African American music that originated in the 1940s. The term was originally used by record companies to describe recordings marketed predominantly to urban African Americans, at a time when \"urbane, rocking, jazz based music with a heavy, insistent beat\" was becoming more popular.\n\nThe term has subsequently had a number of shifts in meaning. In the early 1950s and beyond, the term rhythm and blues was frequently applied to blues records. <a href=\"http://www.last.fm/tag/rnb\">Read more on Last.fm</a>."
+      },
+      {
+       "name": "Drake",
+       "description": "Drake <a href=\"http://www.last.fm/tag/Drake\">Read more on Last.fm</a>."
+      }
+     ]
+    },
+    {
+     "name": "Take Care",
+     "listeners": "482873",
+     "playcount": 13174232,
+     "published": 2011,
+     "tracks": [
+      {
+       "name": "Over My Dead Body",
+       "duration": "273",
+       "rank": "1"
+      },
+      {
+       "name": "Shot for Me",
+       "duration": "225",
+       "rank": "2"
+      },
+      {
+       "name": "Headlines",
+       "duration": "206",
+       "rank": "3"
+      },
+      {
+       "name": "Crew Love",
+       "duration": "209",
+       "rank": "4"
+      },
+      {
+       "name": "Take Care",
+       "duration": "277",
+       "rank": "5"
+      },
+      {
+       "name": "Marvins Room / Buried Alive (Interlude)",
+       "duration": "496",
+       "rank": "6"
+      },
+      {
+       "name": "Under Ground Kings",
+       "duration": "212",
+       "rank": "7"
+      },
+      {
+       "name": "We'll Be Fine",
+       "duration": "248",
+       "rank": "8"
+      },
+      {
+       "name": "Make Me Proud",
+       "duration": "220",
+       "rank": "9"
+      },
+      {
+       "name": "Lord Knows",
+       "duration": "308",
+       "rank": "10"
+      },
+      {
+       "name": "Cameras / Good Ones Go (Interlude)",
+       "duration": "435",
+       "rank": "11"
+      },
+      {
+       "name": "Doing It Wrong",
+       "duration": "265",
+       "rank": "12"
+      },
+      {
+       "name": "The Real Her",
+       "duration": "321",
+       "rank": "13"
+      },
+      {
+       "name": "Look What You've Done",
+       "duration": "302",
+       "rank": "14"
+      },
+      {
+       "name": "HYFR (Hell Ya Fuckin' Right)",
+       "duration": "206",
+       "rank": "15"
+      },
+      {
+       "name": "Practice",
+       "duration": "238",
+       "rank": "16"
+      },
+      {
+       "name": "The Ride",
+       "duration": "351",
+       "rank": "17"
+      }
+     ],
+     "tags": [
+      {
+       "name": "hip hop",
+       "description": "Hip hop is a musical genre which developed alongside hip hop culture, defined by key stylistic elements such as rapping, DJing, sampling, scratching and beatboxing. Hip hop began in the Bronx in New York City in the 1970s, primarily among African Americans and Jamaican Americans, with some Latino influences.\n\nThe term rap is often used synonymously with hip hop, but hip hop denotes the practices of an entire subculture. Hip hop arose when DJs began isolating the percussion break from funk or disco songs for audiences to dance to. <a href=\"http://www.last.fm/tag/hip+hop\">Read more on Last.fm</a>."
+      },
+      {
+       "name": "2011",
+       "description": "2011 is for all sorts of musical things that happened in, or relating to, the year 2011.\n\nAlso see, for releases: 2011 releases. <a href=\"http://www.last.fm/tag/2011\">Read more on Last.fm</a>."
+      },
+      {
+       "name": "Drake",
+       "description": "Drake <a href=\"http://www.last.fm/tag/Drake\">Read more on Last.fm</a>."
+      },
+      {
+       "name": "Hip-Hop",
+       "description": "Hip-hop, also spelled hip hop or hiphop is a rhythm focused popular music style, originating from New York in the 70s. The term rap is sometimes used synonymously with hip-hop music. Hip-hop arose when DJs began isolating the percussion break from funk or disco songs for audiences to dance to.\nIt is now seen as a worldwide and popular genre ranging from American Mainstream (e.g. Eminem, Lil Wayne) to British Undergound (e.g. Wiley, EMC Junkie etc) <a href=\"http://www.last.fm/tag/Hip-Hop\">Read more on Last.fm</a>."
+      },
+      {
+       "name": "rap",
+       "description": "Rap is a vocal style, usually coming together with hip-hop, the musical genre off-shoot of the hip hop culture. Rapping itself, also known as emceeing, MCing, spitting, or just rhyming, is the rhythmic spoken delivery of rhymes and wordplay. Rapping is one of the four pillars of the hip hop culture, along with DJing, graffiti, and breaking.\n\nRap is also considered a separate genre from hip hop in some cases where the artists do not make music compatible with the hip hop culture. <a href=\"http://www.last.fm/tag/rap\">Read more on Last.fm</a>."
+      }
+     ]
+    },
+    {
+     "name": "Views",
+     "listeners": "447429",
+     "playcount": 11487410,
+     "published": 2016,
+     "tracks": [
+      {
+       "name": "Keep the Family Close",
+       "duration": "324",
+       "rank": "1"
+      },
+      {
+       "name": "9",
+       "duration": "238",
+       "rank": "2"
+      },
+      {
+       "name": "U With Me?",
+       "duration": "291",
+       "rank": "3"
+      },
+      {
+       "name": "Feel No Ways",
+       "duration": "240",
+       "rank": "4"
+      },
+      {
+       "name": "Hype",
+       "duration": "207",
+       "rank": "5"
+      },
+      {
+       "name": "Weston Road Flows",
+       "duration": "254",
+       "rank": "6"
+      },
+      {
+       "name": "Redemption",
+       "duration": "334",
+       "rank": "7"
+      },
+      {
+       "name": "With You",
+       "duration": "195",
+       "rank": "8"
+      },
+      {
+       "name": "Faithful",
+       "duration": "284",
+       "rank": "9"
+      },
+      {
+       "name": "Still Here",
+       "duration": "190",
+       "rank": "10"
+      },
+      {
+       "name": "Controlla",
+       "duration": "245",
+       "rank": "11"
+      },
+      {
+       "name": "One Dance",
+       "duration": "175",
+       "rank": "12"
+      },
+      {
+       "name": "Grammys",
+       "duration": "220",
+       "rank": "13"
+      },
+      {
+       "name": "Childs PLay",
+       "duration": "241",
+       "rank": "14"
+      },
+      {
+       "name": "Pop Style",
+       "duration": "212",
+       "rank": "15"
+      },
+      {
+       "name": "Too Good",
+       "duration": "263",
+       "rank": "16"
+      },
+      {
+       "name": "Summers Over (Interlude)",
+       "duration": "106",
+       "rank": "17"
+      },
+      {
+       "name": "Fire & Desire",
+       "duration": "238",
+       "rank": "18"
+      },
+      {
+       "name": "VIEWS",
+       "duration": "312",
+       "rank": "19"
+      },
+      {
+       "name": "Hotline Bling",
+       "duration": "267",
+       "rank": "20"
+      }
+     ],
+     "tags": [
+      {
+       "name": "rap",
+       "description": "Rap is a vocal style, usually coming together with hip-hop, the musical genre off-shoot of the hip hop culture. Rapping itself, also known as emceeing, MCing, spitting, or just rhyming, is the rhythmic spoken delivery of rhymes and wordplay. Rapping is one of the four pillars of the hip hop culture, along with DJing, graffiti, and breaking.\n\nRap is also considered a separate genre from hip hop in some cases where the artists do not make music compatible with the hip hop culture. <a href=\"http://www.last.fm/tag/rap\">Read more on Last.fm</a>."
+      },
+      {
+       "name": "Hip-Hop",
+       "description": "Hip-hop, also spelled hip hop or hiphop is a rhythm focused popular music style, originating from New York in the 70s. The term rap is sometimes used synonymously with hip-hop music. Hip-hop arose when DJs began isolating the percussion break from funk or disco songs for audiences to dance to.\nIt is now seen as a worldwide and popular genre ranging from American Mainstream (e.g. Eminem, Lil Wayne) to British Undergound (e.g. Wiley, EMC Junkie etc) <a href=\"http://www.last.fm/tag/Hip-Hop\">Read more on Last.fm</a>."
+      },
+      {
+       "name": "2016",
+       "description": "Music released in 2016 <a href=\"http://www.last.fm/tag/2016\">Read more on Last.fm</a>."
+      },
+      {
+       "name": "hip hop",
+       "description": "Hip hop is a musical genre which developed alongside hip hop culture, defined by key stylistic elements such as rapping, DJing, sampling, scratching and beatboxing. Hip hop began in the Bronx in New York City in the 1970s, primarily among African Americans and Jamaican Americans, with some Latino influences.\n\nThe term rap is often used synonymously with hip hop, but hip hop denotes the practices of an entire subculture. Hip hop arose when DJs began isolating the percussion break from funk or disco songs for audiences to dance to. <a href=\"http://www.last.fm/tag/hip+hop\">Read more on Last.fm</a>."
+      },
+      {
+       "name": "Drake",
+       "description": "Drake <a href=\"http://www.last.fm/tag/Drake\">Read more on Last.fm</a>."
+      }
+     ]
+    },
+    {
+     "name": "Thank Me Later",
+     "listeners": "444271",
+     "playcount": 9674184,
+     "published": 2009,
+     "tracks": [
+      {
+       "name": "Fireworks",
+       "duration": "313",
+       "rank": "1"
+      },
+      {
+       "name": "Karaoke",
+       "duration": "228",
+       "rank": "2"
+      },
+      {
+       "name": "The Resistance",
+       "duration": "225",
+       "rank": "3"
+      },
+      {
+       "name": "Over",
+       "duration": "233",
+       "rank": "4"
+      },
+      {
+       "name": "Show Me a Good Time",
+       "duration": "210",
+       "rank": "5"
+      },
+      {
+       "name": "Up All Night",
+       "duration": "234",
+       "rank": "6"
+      },
+      {
+       "name": "Fancy",
+       "duration": "319",
+       "rank": "7"
+      },
+      {
+       "name": "Shut It Down",
+       "duration": "419",
+       "rank": "8"
+      },
+      {
+       "name": "Unforgettable",
+       "duration": "214",
+       "rank": "9"
+      },
+      {
+       "name": "Light Up",
+       "duration": "274",
+       "rank": "10"
+      },
+      {
+       "name": "Miss Me",
+       "duration": "304",
+       "rank": "11"
+      },
+      {
+       "name": "Cece's Interlude",
+       "duration": "154",
+       "rank": "12"
+      },
+      {
+       "name": "Find Your Love",
+       "duration": "208",
+       "rank": "13"
+      },
+      {
+       "name": "Thank Me Now",
+       "duration": "328",
+       "rank": "14"
+      },
+      {
+       "name": "Best I Ever Had",
+       "duration": "258",
+       "rank": "15"
+      },
+      {
+       "name": "9AM in Dallas",
+       "duration": "219",
+       "rank": "16"
+      }
+     ],
+     "tags": [
+      {
+       "name": "Hip-Hop",
+       "description": "Hip-hop, also spelled hip hop or hiphop is a rhythm focused popular music style, originating from New York in the 70s. The term rap is sometimes used synonymously with hip-hop music. Hip-hop arose when DJs began isolating the percussion break from funk or disco songs for audiences to dance to.\nIt is now seen as a worldwide and popular genre ranging from American Mainstream (e.g. Eminem, Lil Wayne) to British Undergound (e.g. Wiley, EMC Junkie etc) <a href=\"http://www.last.fm/tag/Hip-Hop\">Read more on Last.fm</a>."
+      },
+      {
+       "name": "2010",
+       "description": "Music that was released or became popular in the year 2010. <a href=\"http://www.last.fm/tag/2010\">Read more on Last.fm</a>."
+      },
+      {
+       "name": "rap",
+       "description": "Rap is a vocal style, usually coming together with hip-hop, the musical genre off-shoot of the hip hop culture. Rapping itself, also known as emceeing, MCing, spitting, or just rhyming, is the rhythmic spoken delivery of rhymes and wordplay. Rapping is one of the four pillars of the hip hop culture, along with DJing, graffiti, and breaking.\n\nRap is also considered a separate genre from hip hop in some cases where the artists do not make music compatible with the hip hop culture. <a href=\"http://www.last.fm/tag/rap\">Read more on Last.fm</a>."
+      },
+      {
+       "name": "hip hop",
+       "description": "Hip hop is a musical genre which developed alongside hip hop culture, defined by key stylistic elements such as rapping, DJing, sampling, scratching and beatboxing. Hip hop began in the Bronx in New York City in the 1970s, primarily among African Americans and Jamaican Americans, with some Latino influences.\n\nThe term rap is often used synonymously with hip hop, but hip hop denotes the practices of an entire subculture. Hip hop arose when DJs began isolating the percussion break from funk or disco songs for audiences to dance to. <a href=\"http://www.last.fm/tag/hip+hop\">Read more on Last.fm</a>."
+      },
+      {
+       "name": "rnb",
+       "description": "\nRhythm and blues is a term describing popular African American music that originated in the 1940s. The term was originally used by record companies to describe recordings marketed predominantly to urban African Americans, at a time when \"urbane, rocking, jazz based music with a heavy, insistent beat\" was becoming more popular.\n\nThe term has subsequently had a number of shifts in meaning. In the early 1950s and beyond, the term rhythm and blues was frequently applied to blues records. <a href=\"http://www.last.fm/tag/rnb\">Read more on Last.fm</a>."
+      }
+     ]
+    },
+    {
+     "name": "Nothing Was the Same",
+     "listeners": "363764",
+     "playcount": 11452014,
+     "published": 2013,
+     "tracks": [
+      {
+       "name": "Tuscan Leather",
+       "duration": "366",
+       "rank": "1"
+      },
+      {
+       "name": "Furthest Thing",
+       "duration": "267",
+       "rank": "2"
+      },
+      {
+       "name": "Started from the Bottom",
+       "duration": "173",
+       "rank": "3"
+      },
+      {
+       "name": "Wu-Tang Forever",
+       "duration": "217",
+       "rank": "4"
+      },
+      {
+       "name": "Own It",
+       "duration": "251",
+       "rank": "5"
+      },
+      {
+       "name": "Worst Behavior",
+       "duration": "270",
+       "rank": "6"
+      },
+      {
+       "name": "From Time",
+       "duration": "322",
+       "rank": "7"
+      },
+      {
+       "name": "Hold On, We're Going Home",
+       "duration": "226",
+       "rank": "8"
+      },
+      {
+       "name": "Connect",
+       "duration": "296",
+       "rank": "9"
+      },
+      {
+       "name": "The Language",
+       "duration": "223",
+       "rank": "10"
+      },
+      {
+       "name": "305 To My City",
+       "duration": "255",
+       "rank": "11"
+      },
+      {
+       "name": "Too Much",
+       "duration": "261",
+       "rank": "12"
+      },
+      {
+       "name": "Pound Cake / Paris Morton Music 2",
+       "duration": "433",
+       "rank": "13"
+      }
+     ],
+     "tags": [
+      {
+       "name": "2013",
+       "description": "Music released in the year 2013.\n <a href=\"http://www.last.fm/tag/2013\">Read more on Last.fm</a>."
+      },
+      {
+       "name": "Drake",
+       "description": "Drake <a href=\"http://www.last.fm/tag/Drake\">Read more on Last.fm</a>."
+      },
+      {
+       "name": "hip hop",
+       "description": "Hip hop is a musical genre which developed alongside hip hop culture, defined by key stylistic elements such as rapping, DJing, sampling, scratching and beatboxing. Hip hop began in the Bronx in New York City in the 1970s, primarily among African Americans and Jamaican Americans, with some Latino influences.\n\nThe term rap is often used synonymously with hip hop, but hip hop denotes the practices of an entire subculture. Hip hop arose when DJs began isolating the percussion break from funk or disco songs for audiences to dance to. <a href=\"http://www.last.fm/tag/hip+hop\">Read more on Last.fm</a>."
+      },
+      {
+       "name": "rap",
+       "description": "Rap is a vocal style, usually coming together with hip-hop, the musical genre off-shoot of the hip hop culture. Rapping itself, also known as emceeing, MCing, spitting, or just rhyming, is the rhythmic spoken delivery of rhymes and wordplay. Rapping is one of the four pillars of the hip hop culture, along with DJing, graffiti, and breaking.\n\nRap is also considered a separate genre from hip hop in some cases where the artists do not make music compatible with the hip hop culture. <a href=\"http://www.last.fm/tag/rap\">Read more on Last.fm</a>."
+      },
+      {
+       "name": "best of 2013",
+       "description": " <a href=\"http://www.last.fm/tag/best+of+2013\">Read more on Last.fm</a>."
+      }
+     ]
+    }
+   ],
+   "description": "Aubrey \u201cDrake\u201d Graham (born October 24, 1986 in Toronto, Ontario) is a Grammy award winning Canadian actor, rapper and singer signed to Young Money/Universal Motown. Drake shot to global fame upon the release of his critically acclaimed 2009 mixtape So Far Gone and Best I Ever Had, a single from the mixtape which peaked at #2 on the Billboard Hot 100.\n\nDrake's music career began in 2006 with the release of his debut mixtape room for improvement. <a href=\"https://www.last.fm/music/Drake\">Read more on Last.fm</a>"
+  },
+  {
+   "artist": {
+    "name": "Radiohead",
+    "listeners": "4728082"
+   },
+   "albums": [
+    {
+     "name": "OK Computer",
+     "listeners": "2115158",
+     "playcount": 65308932,
+     "published": 2008,
+     "tracks": [
+      {
+       "name": "Airbag",
+       "duration": "284",
+       "rank": "1"
+      },
+      {
+       "name": "Paranoid Android",
+       "duration": "383",
+       "rank": "2"
+      },
+      {
+       "name": "Subterranean Homesick Alien",
+       "duration": "267",
+       "rank": "3"
+      },
+      {
+       "name": "Exit Music (for a Film)",
+       "duration": "264",
+       "rank": "4"
+      },
+      {
+       "name": "Let Down",
+       "duration": "299",
+       "rank": "5"
+      },
+      {
+       "name": "Karma Police",
+       "duration": "261",
+       "rank": "6"
+      },
+      {
+       "name": "Fitter Happier",
+       "duration": "117",
+       "rank": "7"
+      },
+      {
+       "name": "Electioneering",
+       "duration": "230",
+       "rank": "8"
+      },
+      {
+       "name": "Climbing Up the Walls",
+       "duration": "285",
+       "rank": "9"
+      },
+      {
+       "name": "No Surprises",
+       "duration": "228",
+       "rank": "10"
+      },
+      {
+       "name": "Lucky",
+       "duration": "259",
+       "rank": "11"
+      },
+      {
+       "name": "The Tourist",
+       "duration": "324",
+       "rank": "12"
+      }
+     ],
+     "tags": [
+      {
+       "name": "albums I own",
+       "description": "\"Albums I own\" is becoming a more common tag being found on last.fm. Users use this tag to create a comprehensive list of their music collections, which is click-able from their profile page under the tags they commonly use. <a href=\"http://www.last.fm/tag/albums+I+own\">Read more on Last.fm</a>."
+      },
+      {
+       "name": "favorite albums",
+       "description": "Intensely personal and subjective, this tag doesn't mean much to anyone but the person tagging. :)\nNevertheless, check out the Albums page for an impressive collection of all time must-listen classics\n\na.k.a favourite albums in International/Traditional English. <a href=\"http://www.last.fm/tag/favorite+albums\">Read more on Last.fm</a>."
+      },
+      {
+       "name": "alternative rock",
+       "description": "Alternative rock (also called alt-rock) is a genre of rock music that refers specifically to the punk/new wave-rooted style that emerged in the 1980s and became widely popular in the early-mid 1990s. The term \"alternative\" was coined in the 1980s to describe punk rock-inspired bands on independent record labels that did not fit into the mainstream genres of the time. As a musical genre, alternative rock consists of various subgenres that have emerged from the independent music scene since the 1980s <a href=\"http://www.last.fm/tag/alternative+rock\">Read more on Last.fm</a>."
+      },
+      {
+       "name": "alternative",
+       "description": "Alternative pop/rock refers to artists that are rooted in the style, sound and/or ethos of punk rock. It is essentially a continuation of the post-punk and new wave genres of the early 80's only even more fractured and diverse. The first wave of alternative rock included jangle pop, grunge, noise rock, and some of the more eclectic punk and hardcore bands. Most alternative rock bands in this wave were largely underground although some became cult hits(Pixies, The Replacements, The Smiths) and a few even gaining mainstream success(U2, R. <a href=\"http://www.last.fm/tag/alternative\">Read more on Last.fm</a>."
+      },
+      {
+       "name": "favourite albums",
+       "description": "Personal tag used simply for keeping track of one's own favourite albums.\n\nThis is the International English spelling used; see favorite albums for American English. <a href=\"http://www.last.fm/tag/favourite+albums\">Read more on Last.fm</a>."
+      }
+     ]
+    },
+    {
+     "name": "In Rainbows",
+     "listeners": "1751049",
+     "playcount": 73932265,
+     "published": 2008,
+     "tracks": [
+      {
+       "name": "15 Step",
+       "duration": "238",
+       "rank": "1"
+      },
+      {
+       "name": "Bodysnatchers",
+       "duration": "265",
+       "rank": "2"
+      },
+      {
+       "name": "Nude",
+       "duration": "255",
+       "rank": "3"
+      },
+      {
+       "name": "Weird Fishes/Arpeggi",
+       "duration": "318",
+       "rank": "4"
+      },
+      {
+       "name": "All I Need",
+       "duration": "229",
+       "rank": "5"
+      },
+      {
+       "name": "Faust Arp",
+       "duration": "130",
+       "rank": "6"
+      },
+      {
+       "name": "Reckoner",
+       "duration": "290",
+       "rank": "7"
+      },
+      {
+       "name": "House of Cards",
+       "duration": "328",
+       "rank": "8"
+      },
+      {
+       "name": "Jigsaw Falling Into Place",
+       "duration": "249",
+       "rank": "9"
+      },
+      {
+       "name": "Videotape",
+       "duration": "280",
+       "rank": "10"
+      }
+     ],
+     "tags": [
+      {
+       "name": "albums I own",
+       "description": "\"Albums I own\" is becoming a more common tag being found on last.fm. Users use this tag to create a comprehensive list of their music collections, which is click-able from their profile page under the tags they commonly use. <a href=\"http://www.last.fm/tag/albums+I+own\">Read more on Last.fm</a>."
+      },
+      {
+       "name": "alternative",
+       "description": "Alternative pop/rock refers to artists that are rooted in the style, sound and/or ethos of punk rock. It is essentially a continuation of the post-punk and new wave genres of the early 80's only even more fractured and diverse. The first wave of alternative rock included jangle pop, grunge, noise rock, and some of the more eclectic punk and hardcore bands. Most alternative rock bands in this wave were largely underground although some became cult hits(Pixies, The Replacements, The Smiths) and a few even gaining mainstream success(U2, R. <a href=\"http://www.last.fm/tag/alternative\">Read more on Last.fm</a>."
+      },
+      {
+       "name": "alternative rock",
+       "description": "Alternative rock (also called alt-rock) is a genre of rock music that refers specifically to the punk/new wave-rooted style that emerged in the 1980s and became widely popular in the early-mid 1990s. The term \"alternative\" was coined in the 1980s to describe punk rock-inspired bands on independent record labels that did not fit into the mainstream genres of the time. As a musical genre, alternative rock consists of various subgenres that have emerged from the independent music scene since the 1980s <a href=\"http://www.last.fm/tag/alternative+rock\">Read more on Last.fm</a>."
+      },
+      {
+       "name": "2007",
+       "description": "Songs/Albums that were released in the year 2007. <a href=\"http://www.last.fm/tag/2007\">Read more on Last.fm</a>."
+      },
+      {
+       "name": "best of 2007",
+       "description": "Best artists, albums and songs of 2007. <a href=\"http://www.last.fm/tag/best+of+2007\">Read more on Last.fm</a>."
+      }
+     ]
+    },
+    {
+     "name": "The Bends",
+     "listeners": "1563926",
+     "playcount": 44115740,
+     "published": 2008,
+     "tracks": [
+      {
+       "name": "Planet Telex",
+       "duration": "258",
+       "rank": "1"
+      },
+      {
+       "name": "The Bends",
+       "duration": "246",
+       "rank": "2"
+      },
+      {
+       "name": "High and Dry",
+       "duration": "257",
+       "rank": "3"
+      },
+      {
+       "name": "Fake Plastic Trees",
+       "duration": "290",
+       "rank": "4"
+      },
+      {
+       "name": "Bones",
+       "duration": "189",
+       "rank": "5"
+      },
+      {
+       "name": "Nice Dream",
+       "duration": "232",
+       "rank": "6"
+      },
+      {
+       "name": "My Iron Lung",
+       "duration": "276",
+       "rank": "8"
+      },
+      {
+       "name": "Bullet proof...I wish..",
+       "duration": "208",
+       "rank": "9"
+      },
+      {
+       "name": "Black Star",
+       "duration": "247",
+       "rank": "10"
+      },
+      {
+       "name": "Sulk",
+       "duration": "222",
+       "rank": "11"
+      }
+     ],
+     "tags": [
+      {
+       "name": "albums I own",
+       "description": "\"Albums I own\" is becoming a more common tag being found on last.fm. Users use this tag to create a comprehensive list of their music collections, which is click-able from their profile page under the tags they commonly use. <a href=\"http://www.last.fm/tag/albums+I+own\">Read more on Last.fm</a>."
+      },
+      {
+       "name": "favorite albums",
+       "description": "Intensely personal and subjective, this tag doesn't mean much to anyone but the person tagging. :)\nNevertheless, check out the Albums page for an impressive collection of all time must-listen classics\n\na.k.a favourite albums in International/Traditional English. <a href=\"http://www.last.fm/tag/favorite+albums\">Read more on Last.fm</a>."
+      },
+      {
+       "name": "alternative rock",
+       "description": "Alternative rock (also called alt-rock) is a genre of rock music that refers specifically to the punk/new wave-rooted style that emerged in the 1980s and became widely popular in the early-mid 1990s. The term \"alternative\" was coined in the 1980s to describe punk rock-inspired bands on independent record labels that did not fit into the mainstream genres of the time. As a musical genre, alternative rock consists of various subgenres that have emerged from the independent music scene since the 1980s <a href=\"http://www.last.fm/tag/alternative+rock\">Read more on Last.fm</a>."
+      },
+      {
+       "name": "radiohead",
+       "description": "The English rock band Radiohead and everything that can be related to them.  <a href=\"http://www.last.fm/tag/radiohead\">Read more on Last.fm</a>."
+      },
+      {
+       "name": "rock",
+       "description": "Rock music is a genre of music started in America. It has its roots in 1940s and 1950s rock and roll and rockabilly, which evolved from blues, country music and other influences. According to the All Music Guide, \u201cIn its purest form, Rock & Roll has three chords, a strong, insistent back beat, and a catchy melody.  Early rock & roll drew from a variety of sources, primarily blues, R&B, and country, but also gospel, traditional pop, jazz, and folk. <a href=\"http://www.last.fm/tag/rock\">Read more on Last.fm</a>."
+      }
+     ]
+    },
+    {
+     "name": "Pablo Honey",
+     "listeners": "1456219",
+     "playcount": 25641983,
+     "published": 2008,
+     "tracks": [
+      {
+       "name": "You",
+       "duration": "208",
+       "rank": "1"
+      },
+      {
+       "name": "Creep",
+       "duration": "236",
+       "rank": "2"
+      },
+      {
+       "name": "How Do You?",
+       "duration": "132",
+       "rank": "3"
+      },
+      {
+       "name": "Stop Whispering",
+       "duration": "325",
+       "rank": "4"
+      },
+      {
+       "name": "Thinking About You",
+       "duration": "161",
+       "rank": "5"
+      },
+      {
+       "name": "Anyone Can Play Guitar",
+       "duration": "217",
+       "rank": "6"
+      },
+      {
+       "name": "Ripcord",
+       "duration": "189",
+       "rank": "7"
+      },
+      {
+       "name": "Vegetable",
+       "duration": "192",
+       "rank": "8"
+      },
+      {
+       "name": "Prove Yourself",
+       "duration": "145",
+       "rank": "9"
+      },
+      {
+       "name": "I Can't",
+       "duration": "253",
+       "rank": "10"
+      },
+      {
+       "name": "Lurgee",
+       "duration": "187",
+       "rank": "11"
+      },
+      {
+       "name": "Blow Out",
+       "duration": "280",
+       "rank": "12"
+      }
+     ],
+     "tags": [
+      {
+       "name": "albums I own",
+       "description": "\"Albums I own\" is becoming a more common tag being found on last.fm. Users use this tag to create a comprehensive list of their music collections, which is click-able from their profile page under the tags they commonly use. <a href=\"http://www.last.fm/tag/albums+I+own\">Read more on Last.fm</a>."
+      },
+      {
+       "name": "alternative rock",
+       "description": "Alternative rock (also called alt-rock) is a genre of rock music that refers specifically to the punk/new wave-rooted style that emerged in the 1980s and became widely popular in the early-mid 1990s. The term \"alternative\" was coined in the 1980s to describe punk rock-inspired bands on independent record labels that did not fit into the mainstream genres of the time. As a musical genre, alternative rock consists of various subgenres that have emerged from the independent music scene since the 1980s <a href=\"http://www.last.fm/tag/alternative+rock\">Read more on Last.fm</a>."
+      },
+      {
+       "name": "rock",
+       "description": "Rock music is a genre of music started in America. It has its roots in 1940s and 1950s rock and roll and rockabilly, which evolved from blues, country music and other influences. According to the All Music Guide, \u201cIn its purest form, Rock & Roll has three chords, a strong, insistent back beat, and a catchy melody.  Early rock & roll drew from a variety of sources, primarily blues, R&B, and country, but also gospel, traditional pop, jazz, and folk. <a href=\"http://www.last.fm/tag/rock\">Read more on Last.fm</a>."
+      },
+      {
+       "name": "alternative",
+       "description": "Alternative pop/rock refers to artists that are rooted in the style, sound and/or ethos of punk rock. It is essentially a continuation of the post-punk and new wave genres of the early 80's only even more fractured and diverse. The first wave of alternative rock included jangle pop, grunge, noise rock, and some of the more eclectic punk and hardcore bands. Most alternative rock bands in this wave were largely underground although some became cult hits(Pixies, The Replacements, The Smiths) and a few even gaining mainstream success(U2, R. <a href=\"http://www.last.fm/tag/alternative\">Read more on Last.fm</a>."
+      },
+      {
+       "name": "radiohead",
+       "description": "The English rock band Radiohead and everything that can be related to them.  <a href=\"http://www.last.fm/tag/radiohead\">Read more on Last.fm</a>."
+      }
+     ]
+    },
+    {
+     "name": "Kid A",
+     "listeners": "1429176",
+     "playcount": 42627515,
+     "published": 2008,
+     "tracks": [
+      {
+       "name": "Everything in Its Right Place",
+       "duration": "251",
+       "rank": "1"
+      },
+      {
+       "name": "Kid A",
+       "duration": "284",
+       "rank": "2"
+      },
+      {
+       "name": "The National Anthem",
+       "duration": "351",
+       "rank": "3"
+      },
+      {
+       "name": "How to Disappear Completely",
+       "duration": "356",
+       "rank": "4"
+      },
+      {
+       "name": "Treefingers",
+       "duration": "222",
+       "rank": "5"
+      },
+      {
+       "name": "Optimistic",
+       "duration": "316",
+       "rank": "6"
+      },
+      {
+       "name": "In Limbo",
+       "duration": "211",
+       "rank": "7"
+      },
+      {
+       "name": "Idioteque",
+       "duration": "309",
+       "rank": "8"
+      },
+      {
+       "name": "Morning Bell",
+       "duration": "275",
+       "rank": "9"
+      },
+      {
+       "name": "Motion Picture Soundtrack",
+       "duration": "419",
+       "rank": "10"
+      }
+     ],
+     "tags": [
+      {
+       "name": "albums I own",
+       "description": "\"Albums I own\" is becoming a more common tag being found on last.fm. Users use this tag to create a comprehensive list of their music collections, which is click-able from their profile page under the tags they commonly use. <a href=\"http://www.last.fm/tag/albums+I+own\">Read more on Last.fm</a>."
+      },
+      {
+       "name": "electronic",
+       "description": "Electronic music refers to music that emphasizes the use of electronic musical instruments or electronic music technology as a central aspect of the sound of the music. Historically, electronic music was considered to be any music created with the use of electronic musical instruments or electronic processing, but in modern times, that distinction has been lost because almost all recorded music today, and the majority of live music performances, depend on extensive use of electronics. <a href=\"http://www.last.fm/tag/electronic\">Read more on Last.fm</a>."
+      },
+      {
+       "name": "favorite albums",
+       "description": "Intensely personal and subjective, this tag doesn't mean much to anyone but the person tagging. :)\nNevertheless, check out the Albums page for an impressive collection of all time must-listen classics\n\na.k.a favourite albums in International/Traditional English. <a href=\"http://www.last.fm/tag/favorite+albums\">Read more on Last.fm</a>."
+      },
+      {
+       "name": "alternative",
+       "description": "Alternative pop/rock refers to artists that are rooted in the style, sound and/or ethos of punk rock. It is essentially a continuation of the post-punk and new wave genres of the early 80's only even more fractured and diverse. The first wave of alternative rock included jangle pop, grunge, noise rock, and some of the more eclectic punk and hardcore bands. Most alternative rock bands in this wave were largely underground although some became cult hits(Pixies, The Replacements, The Smiths) and a few even gaining mainstream success(U2, R. <a href=\"http://www.last.fm/tag/alternative\">Read more on Last.fm</a>."
+      },
+      {
+       "name": "experimental",
+       "description": "Experimental music refers, in the English-language literature, to a compositional tradition which arose in the mid-twentieth century, applied particularly in North America to music composed in such a way that its outcome is unforeseeable. Its most famous and influential exponent was John Cage (Grant 2003, 174). More loosely, the term \"experimental\" is used in conjunction with genre names to describe music within specific genres that pushes against their boundaries or definitions <a href=\"http://www.last.fm/tag/experimental\">Read more on Last.fm</a>."
+      }
+     ]
+    }
+   ],
+   "description": "\nRadiohead are an English alternative rock band from Abingdon, Oxfordshire, UK which formed in 1985. The band is composed of Thom Yorke (lead vocals, rhythm guitar, piano, beats), Jonny Greenwood (lead guitar, keyboard, other instruments), Ed O'Brien (guitar, backing vocals), Colin Greenwood (bass guitar) and Phil Selway (drums, percussion).\n\nThe early years (1992 \u2013 1995)\nRadiohead released their first single, \"Creep\" in 1992. The song was initially unsuccessful <a href=\"https://www.last.fm/music/Radiohead\">Read more on Last.fm</a>"
+  }
+ ]
+}

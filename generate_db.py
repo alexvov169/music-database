@@ -154,6 +154,7 @@ def load_json():
 class AlbumToDB:
     def __init__(self):
         self.album_counter = 0
+        self.track_counter = 0
 
     def next(self, db, album, artist_id):
         db.insert(into="Album", row={'Album_Id': self.album_counter, 'Album_Name': album['name'],
