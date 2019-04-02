@@ -151,7 +151,7 @@ class MusicLibraryDatabase:
         def make_values(values):
             # print(values)
             return "(%s)" % (', '.join([("'%s'" %
-                                         value.replace('"', '\' || CHR(39) || \'').replace("'", '\' || CHR(39) || \''))
+                                         value.replace('"', '\' || CHR(39) || \'').replace("'", ' '))
                                         if isinstance(value, str)
                                         else str(value)
                                         for value in values]))

@@ -206,7 +206,7 @@ def shrink_cells(rows, length=27):
 
 def print_table(entity_name, rows):
     attribute_name = [tuple(i for i in get_entity_attributes_names(entity_name))]
-    print(attribute_name)
+    ## print(attribute_name)
     rows = shrink_cells(rows)
     table_wrapper = terminaltables.SingleTable(attribute_name + rows)
     print(table_wrapper.table)
