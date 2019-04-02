@@ -46,6 +46,8 @@ DATABASE_DATA = {'entities': [{'name': 'Artist',
                                                'type': 'INT'},
                                               {'name': 'Rank',
                                                'type': 'INT'},
+                                              {'name': 'Duration',
+                                               'type': 'INT'},
                                               {'name': 'Album_Id',
                                                'type': 'INT'}]}]}
 
@@ -54,23 +56,23 @@ CREATE TABLE Artist
 (
   Artist_Name VARCHAR(128) NOT NULL,
   Artist_Description VARCHAR(4096) NOT NULL,
-  Artist_Id INT NOT NULL,
+  Artist_Id SERIAL NOT NULL,
   PRIMARY KEY (Artist_Id)
 );
 
 CREATE TABLE Album
 (
   Album_Name VARCHAR(128) NOT NULL,
-  Album_Id INT NOT NULL,
+  Album_Id SERIAL NOT NULL,
   Year INT NOT NULL,
-  Artist_Id INT NOT NULL,
+  Artist_Id SERIAL NOT NULL,
   PRIMARY KEY (Album_Id),
   FOREIGN KEY (Artist_Id) REFERENCES Artist(Artist_Id)
 );
 
 CREATE TABLE Tag
 (
-  Tag_Id INT NOT NULL,
+  Tag_Id SERIAL NOT NULL,
   Tag_Name VARCHAR(128) NOT NULL,
   Tag_Description VARCHAR(4096) NOT NULL,
   PRIMARY KEY (Tag_Id)
@@ -78,8 +80,8 @@ CREATE TABLE Tag
 
 CREATE TABLE has
 (
-  Album_Id INT NOT NULL,
-  Tag_Id INT NOT NULL,
+  Album_Id SERIAL NOT NULL,
+  Tag_Id SERIAL NOT NULL,
   PRIMARY KEY (Album_Id, Tag_Id),
   FOREIGN KEY (Album_Id) REFERENCES Album(Album_Id),
   FOREIGN KEY (Tag_Id) REFERENCES Tag(Tag_Id)
@@ -88,10 +90,10 @@ CREATE TABLE has
 CREATE TABLE Track
 (
   Track_Name VARCHAR(128) NOT NULL,
-  Track_Id INT NOT NULL,
+  Track_Id SERIAL NOT NULL,
   Rank INT NOT NULL,
   Duration INT NOT NULL,
-  Album_Id INT NOT NULL,
+  Album_Id SERIAL NOT NULL,
   PRIMARY KEY (Track_Id),
   FOREIGN KEY (Album_Id) REFERENCES Album(Album_Id)
 );
@@ -145,7 +147,23 @@ class MusicLibraryDatabase:
         return self._fetch_all()
 
     def insert(self, into, row):
-        self._execute("INSERT INTO %s %s VALUES %s", into, row)
+        # self._execute("INSERT INTO %s %s VALUES %s", into, row)
+        def make_values(values):
+            # print(values)
+            return "(%s)" % (', '.join([("'%s'" %
+                                         value.replace('"', '\' || CHR(39) || \'').replace("'", '\' || CHR(39) || \''))
+                                        if isinstance(value, str)
+                                        else str(value)
+                                        for value in values]))
+
+        def make_keys(keys):
+            return "(%s)" % (', '.join(keys))
+
+        keys = [key for key, value in row.items()]
+        values = [value for key, value in row.items()]
+        query = "INSERT INTO %s %s VALUES %s" % (into, make_keys(keys), make_values(values))
+        # print(query)
+        self.cursor.execute(query)
 
     def delete_all(self, entity):
         self.cursor.execute("DELETE FROM %s;" % entity)

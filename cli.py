@@ -32,6 +32,8 @@ def make_question(type, message, name, choices):
 
 
 def prompt_type(type, name, what_message, choices_names):
+    if len(choices_names) == 0:
+        raise KeyError("Empty menu")
     answer = prompt([make_question(type, 'Select ' + what_message, name,
                                    [{'name': choice_name} for choice_name in choices_names])])
     return answer[name]
@@ -130,6 +132,7 @@ attribute_type_filters = {
         'Track_Name': capitalize_all_words,
         'Track_Id': int,
         'Rank': int,
+        'Duration': int,
         'Album_Id': int
     },
 }
@@ -158,6 +161,7 @@ attribute_type_validators = {
         'Track_Name': validate_varchar,
         'Track_Id': validate_integer,
         'Rank': validate_integer,
+        'Duration': validate_integer,
         'Album_Id': validate_integer
     }
 }
@@ -202,6 +206,7 @@ def shrink_cells(rows, length=27):
 
 def print_table(entity_name, rows):
     attribute_name = [tuple(i for i in get_entity_attributes_names(entity_name))]
+    print(attribute_name)
     rows = shrink_cells(rows)
     table_wrapper = terminaltables.SingleTable(attribute_name + rows)
     print(table_wrapper.table)
@@ -453,7 +458,7 @@ def main(db):
 
 if __name__ == '__main__':
     connection_parameters = {
-        'user': 'postgres', 'host': 'localhost', 'password': 'py', 'database': 'db1'
+        'user': 'postgres', 'host': 'localhost', 'password': 'py', 'database': 'music_library'
     }
     with MusicLibraryDatabase(**connection_parameters) as db_handle:
         main(db_handle)

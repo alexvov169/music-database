@@ -13,9 +13,9 @@ scrobbler_root = "http://ws.audioscrobbler.com/2.0/"
 
 # yeah, i give it to you
 api_account_details = {
- 'api_key': '4a6facf7352d482ddd5a5cf8b7dd88bf',
- 'api_secret': '94a63b6915912ad000415fe27d8833db',
- 'username': 'monty-1'
+    'api_key': '4a6facf7352d482ddd5a5cf8b7dd88bf',
+    'api_secret': '94a63b6915912ad000415fe27d8833db',
+    'username': 'monty-1'
 }
 
 
@@ -24,8 +24,8 @@ def options_to_query_string(**options):
 
 
 def last_get(method, api_key, options, file_format='json'):
-    req = scrobbler_root+'?method='+method+'&api_key='+api_key +\
-          options_to_query_string(**options)+'&format='+file_format
+    req = scrobbler_root + '?method=' + method + '&api_key=' + api_key + \
+          options_to_query_string(**options) + '&format=' + file_format
     # print(req)
     return requests.get(req)
 
@@ -112,7 +112,7 @@ def dump_artists_json(file, country="United States", artists_limit=10):
                     for artist in artists]
 
     artists_json.sort(key=lambda artist: int(artist['listeners']), reverse=False)
-    print("SORTED")
+    # print("SORTED")
     artists_json = list(map(make_artist_with_tracks, artists_json))
 
     with open(file, 'w', encoding='utf-8') as f:
@@ -123,7 +123,7 @@ def dict_to_csv(j):
     # print(j)
     return ';'.join([dict_to_csv(v) if isinstance(v, dict)
                      else ';'.join([dict_to_csv(i) for i in v]) if isinstance(v, list)
-                     else str(v)
+    else str(v)
                      for k, v in j.items()])
 
 
@@ -131,7 +131,7 @@ def rows_to_csv(rows, file):
     with open(file, 'w', encoding='utf-8') as out:
         csv_data = '\n'.join([dict_to_csv(row) for row in rows])
         out.write(csv_data)
-        #print(csv_data.encode('utf-8'), file=out)
+        # print(csv_data.encode('utf-8'), file=out)
 
 
 def json_to_rows(file):
@@ -141,9 +141,11 @@ def json_to_rows(file):
 
 csv_file = 'artists.csv'
 json_file = 'music_library.json'
-#dump_artists_json(json_file, artists_limit=30, country="United States")
-#dump_artists_json(json_file, artists_limit=30)
-#rows_to_csv(json_to_rows(json_file), csv_file)
+
+
+# dump_artists_json(json_file, artists_limit=30, country="United States")
+# dump_artists_json(json_file, artists_limit=30)
+# rows_to_csv(json_to_rows(json_file), csv_file)
 
 
 def load_json():
@@ -155,12 +157,43 @@ class AlbumToDB:
     def __init__(self):
         self.album_counter = 0
         self.track_counter = 0
+        self.tag_counter = 0
+        self.tags_list = dict()
+        self.has_list = []
 
     def next(self, db, album, artist_id):
-        db.insert(into="Album", row={'Album_Id': self.album_counter, 'Album_Name': album['name'],
+        db.insert(into="Album", row={'Album_Name': album['name'], 'Album_Id': self.album_counter,
                                      'Artist_Id': artist_id, 'Year': album['published']})
-        print(self.album_counter)
+        # print(self.album_counter)
+        for track in album['tracks']:
+            self.next_track(db, track, self.album_counter)
+        for tag in album['tags']:
+            self.next_tag(tag)
         self.album_counter += 1
+
+    def next_tag(self, tag):
+        try:
+            tag_info = self.tags_list[tag['name']]
+            self.has_list.append([self.album_counter, tag_info[1]])
+        except KeyError:
+            self.tags_list[tag['name']] = [tag['description'], self.tag_counter]
+            self.has_list.append([self.album_counter, self.tag_counter])
+            self.tag_counter += 1
+
+    def next_track(self, db, track, album_id):
+        db.insert(into="Track", row={'Track_Name': track['name'],
+                                     'Rank': track['rank'],
+                                     'Duration': track['duration'],
+                                     'Album_Id': album_id})
+        self.track_counter += 1
+
+    def insert_tags(self, db):
+        for k, v in self.tags_list.items():
+            db.insert(into="Tag", row={'Tag_Name': k, 'Tag_Description': v[0], 'Tag_Id': v[1]})
+
+    def insert_has(self, db):
+        for row in self.has_list:
+            db.insert(into="has", row={'Album_Id': row[0], 'Tag_id': row[1]})
 
 
 album_to_db = AlbumToDB()
@@ -175,17 +208,19 @@ def artist_to_db(db, artist, artist_i):
         album_to_db.next(db, album, artist_i)
 
 
-
 def json_to_db(db, json_data):
     json_data = json_data['topartists']
-    artist_i = 3
+    artist_i = 0
     for artist in json_data:
         artist_to_db(db, artist, artist_i)
         artist_i += 1
 
+    album_to_db.insert_tags(db)
+    album_to_db.insert_has(db)
+
 
 def main(db):
-    #dump_artists_json(json_file, artists_limit=2, country="United States")
+    # dump_artists_json(json_file, artists_limit=2, country="United States")
     json_data = load_json()
     json_to_db(db, json_data)
 
@@ -208,11 +243,10 @@ def main(db):
 
 if __name__ == '__main__':
     connection_parameters = {
-        'user': 'postgres', 'host': 'localhost', 'password': 'py', 'database': 'db1'
+        'user': 'postgres', 'host': 'localhost', 'password': 'py', 'database': 'music_library'
     }
     with MusicLibraryDatabase(**connection_parameters) as db_handle:
         main(db_handle)
-
 
 """
 net = pylast.LastFMNetwork(**api_account_details)
